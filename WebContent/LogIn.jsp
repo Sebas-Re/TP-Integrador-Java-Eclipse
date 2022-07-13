@@ -15,22 +15,32 @@
 Usuario  <input type="text" name="txtLogInUsuario" style="width: 154px; "/> <br><br>
 Contraseña <input type="password" name="txtLogInPass" style="width: 158px; "/> <br> <br>
 
-<input type="submit" name="btnLogIn" value="Iniciar Sesion"/>
-
-
-
 
 <%
 
 if(request.getAttribute("TipoUsuario") != null)
 {
 %>
-	<label id="LblInicioIncorrecto">Datos de inicio de sesion incorrectos</label>
+	<label id="LblInicioIncorrecto" style="color:red">Datos de inicio de sesion incorrectos</label>
+<%
+}
+
+if(request.getAttribute("SessionVencida") != null)
+{
+%>
+	<label id="LblInicioIncorrecto" style="color:red">Su sesion ha vencido, Inicie sesion de nuevo para continuar.</label>
+<%
+}
+
+if(request.getAttribute("SessionCerrada") != null)
+{
+%>	
+<label id="LblInicioIncorrecto" style="color:blue">Sesion cerrada exitosamente.</label>
 <%
 }
 %>
-
-
+<br>
+<input type="submit" name="btnLogIn" value="Iniciar Sesion"/>
 
 </form>
 </center>

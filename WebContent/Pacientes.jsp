@@ -31,13 +31,6 @@
 </head>
 <body>
 <%
-/*
-Usuario UsuarioLogeado = new Usuario();
-UsuarioLogeado = (Usuario) session.getAttribute("DatosUsuario");
-String MensajeBienvenida = "Bienvenido "+UsuarioLogeado.getNombreUsuario();
-*/
-	String MensajeBienvenida = "Bienvenido";
-
 	Pais pais = new Pais();
 	NacionalidadNegocioImpl negNac = new NacionalidadNegocioImpl();
 	
@@ -54,17 +47,37 @@ String MensajeBienvenida = "Bienvenido "+UsuarioLogeado.getNombreUsuario();
 	
 	ArrayList<Localidad> listaLocalidades=null;
 	listaLocalidades = negNac.traerLocalidades();
+
+try{
+Usuario UsuarioLogeado = new Usuario();
+UsuarioLogeado = (Usuario) session.getAttribute("DatosUsuario");
+String MensajeBienvenida = "Bienvenido "+UsuarioLogeado.getNombreUsuario();
+
 %>
 <div>
 
 	<ul class="" id="Navegacion">
-	  <li class="nav__li"><a class="nav__li-a" href="ServletReportes?MostrarReportes=1">Home</a></li>
+	<li class="nav__Usuario"><a class="nav__li-a" href="ServletLogIn?CerrarSesion=1">Cerrar Sesion</a></li>
+	  <li class="nav__li"><%if(UsuarioLogeado.getTipoUsuario() == 1){ %><a class="nav__li-a" href="ServletReportes?MostrarReportes=1">Home</a><%} %></li>
 	  <li class="nav__li"><a class="nav__li-a" href="ServletMedicos?ListarMedicos=1">Medicos</a></li>
 	  <li class="nav__li"><a class="nav__li-a" href="ServeletPaciente?ListarPacientes=1">Pacientes</a></li>
 	  <li class="nav__li"><a class="nav__li-a" href="Turnos.jsp">Turnos</a></li>
+	  <li class="nav__li"><a class="nav__li-a" href="TurnosMedico.jsp">Turnos Medicos</a></li>
+	   <li class="nav__li"><%if(UsuarioLogeado.getTipoUsuario() == 1){ %><a class="nav__li-a" href="Reportes.jsp">Reportes</a><%} %></li>
 	 <li class="nav__Usuario"><%=MensajeBienvenida%></li>
+	 
 	</ul>
 </div>
+
+<%
+}catch(NullPointerException e){
+response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVencida=1");
+
+}
+%>
+
+
+
 	<h2>Pacientes</h2>
 	
 	<h3>Agregar Pacientes</h3>

@@ -1,3 +1,4 @@
+<%@page import="javax.servlet.jsp.tagext.TryCatchFinally"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="entidad.Medicos"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -22,21 +23,33 @@
 </head>
 <body>
 <%
-
+try{
 Usuario UsuarioLogeado = new Usuario();
 UsuarioLogeado = (Usuario) session.getAttribute("DatosUsuario");
 String MensajeBienvenida = "Bienvenido "+UsuarioLogeado.getNombreUsuario();
+
 %>
 <div>
 
 	<ul class="" id="Navegacion">
-	  <li class="nav__li"><a class="nav__li-a" href="ServletReportes?MostrarReportes=1">Home</a></li>
+	<li class="nav__Usuario"><a class="nav__li-a" href="ServletLogIn?CerrarSesion=1">Cerrar Sesion</a></li>
+	  <li class="nav__li"><%if(UsuarioLogeado.getTipoUsuario() == 1){ %><a class="nav__li-a" href="ServletReportes?MostrarReportes=1">Home</a><%} %></li>
 	  <li class="nav__li"><a class="nav__li-a" href="ServletMedicos?ListarMedicos=1">Medicos</a></li>
 	  <li class="nav__li"><a class="nav__li-a" href="ServeletPaciente?ListarPacientes=1">Pacientes</a></li>
 	  <li class="nav__li"><a class="nav__li-a" href="Turnos.jsp">Turnos</a></li>
+	  <li class="nav__li"><a class="nav__li-a" href="TurnosMedico.jsp">Turnos Medicos</a></li>
+	   <li class="nav__li"><%if(UsuarioLogeado.getTipoUsuario() == 1){ %><a class="nav__li-a" href="Reportes.jsp">Reportes</a><%} %></li>
 	 <li class="nav__Usuario"><%=MensajeBienvenida%></li>
+	 
 	</ul>
 </div>
+
+<%
+}catch(NullPointerException e){
+response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVencida=1");
+
+}
+%>
 
 <h2>Medicos</h2>
 	

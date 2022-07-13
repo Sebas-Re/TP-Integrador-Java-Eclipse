@@ -12,7 +12,7 @@
 	float: left;
 }
 
-ul li a{
+#Navegacion .nav__li-a{
 		display: block;
 	  color: white;
 	  text-align: center;

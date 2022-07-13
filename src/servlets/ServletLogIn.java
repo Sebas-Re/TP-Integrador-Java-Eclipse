@@ -40,8 +40,23 @@ public class ServletLogIn extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		if(request.getParameter("CerrarSesion") != null)
+		{
+			HttpSession session = request.getSession();	
+			session.setAttribute("DatosUsuario", null);
+			request.setAttribute("SessionCerrada", true);
+			RequestDispatcher rd_LogIn = request.getRequestDispatcher("LogIn.jsp");
+			rd_LogIn.forward(request, response);
+		}
+		
+		
+		if(request.getParameter("SessionVencida") != null)
+		{
+			request.setAttribute("SessionVencida", true);
+			RequestDispatcher rd_LogIn = request.getRequestDispatcher("LogIn.jsp");
+			rd_LogIn.forward(request, response);
+		}
+		
 	}
 
 	/**
@@ -67,6 +82,9 @@ public class ServletLogIn extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/ServletMedicos?" + "ListarMedicos=1");
 			break;
 		case -1: // No registrado en el sistema
+			
+			request.setAttribute("SessionVencida", null);
+			request.setAttribute("SessionCerrada", null);
 			RequestDispatcher rd_LogIn = request.getRequestDispatcher("LogIn.jsp");
 			rd_LogIn.forward(request, response);
 			break;

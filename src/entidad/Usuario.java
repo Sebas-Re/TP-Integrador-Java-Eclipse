@@ -12,6 +12,7 @@ public class Usuario
 	
 	public Usuario() {
 		this.eMailUsuario = new Email();
+		this.nombreUsuario = null;
 	}
 	
 	
