@@ -1,6 +1,9 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -163,29 +166,39 @@ public class ServletMedicos extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/ServletMedicos?" + "ListarMedicos=1&ContraInvalida=true");
 		return;
 		}
-		
-		if(request.getParameter("txtEmail") == null) {
-			response.sendRedirect(request.getContextPath() + "/ServletMedicos?" + "ListarMedicos=1&EmailVacio=true");
-			return;
-		}
+	
 		 
 		Us.setTipoUsuario(0);
 		
 		Medicos med = new Medicos();
 		
 		med.setDni_m(request.getParameter("txtDni"));
-		med.setNombre_m(request.getParameter("txtNombreMed"));
-		med.setApellido_m(request.getParameter("txtApellido"));
-		med.setSexo_m(request.getParameter("txtSexo"));
-		med.setFechaNac_m(request.getParameter("txtFechaNac"));
-		med.setDireccion_m(request.getParameter("txtDirec"));
-		med.setLocalidad_m(request.getParameter("txtLocalidad"));
-		med.setProvincia_m(request.getParameter("txtProv"));
-		med.setCorreoElectronico_m(request.getParameter("txtEmail"));
-		med.setTelefono_m(request.getParameter("txtTel"));
-		med.setEspecialidad(request.getParameter("txtEsp"));
-		med.setDia(request.getParameter("txtDia"));
-		med.setHorarioAtencion(request.getParameter("txtHorarioAtencion"));
+		med.setNombre_m(request.getParameter("txtNombre"));
+		
+		//Aquellos comentados dan nulo
+		
+	//	med.setApellido_m(request.getParameter("txtApellido"));
+	//	med.setSexo_m(request.getParameter("ddlSexo"));
+		
+		try {
+			Date prueba = (Date) new SimpleDateFormat("yyyy/MM/dd").parse(request.getParameter("FechaNac"));
+			
+		} catch (ParseException e) {
+			// 
+			//Por algun motivo desconocido dejando esto funciona
+			e.printStackTrace();
+		}
+		med.setFechaNac_m(request.getParameter("FechaNac"));
+		med.setNacionalidad(request.getParameter("Nacionalidad"));
+		med.setDireccion_m(request.getParameter("Direccion"));
+		med.setLocalidad_m(request.getParameter("Localidad"));
+		med.setProvincia_m(request.getParameter("Provincia"));
+		med.setCorreoElectronico_m(request.getParameter("Mail"));
+		med.setTelefono_m(request.getParameter("Telefono"));
+		med.setEspecialidad(request.getParameter("Especialidad"));
+		med.setSexo_m(request.getParameter("ddlSexo"));
+	//	med.setDia(request.getParameter("txtDia"));
+	//	med.setHorarioAtencion(request.getParameter("txtHorarioAtencion"));
 		med.setEstado(1);
 		
 		MedicoNegocioImpl negMed = new MedicoNegocioImpl();

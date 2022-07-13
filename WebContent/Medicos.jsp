@@ -14,11 +14,10 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
 
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" />
-<style type="text/css">
-	<jsp:include page="css\medicos.css"></jsp:include> 
-	
-</style>
+<style type="text/css"><jsp:include page="css\medicos.css"></jsp:include> </style>
 
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css"/>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
 
 </head>
 <body>
@@ -54,30 +53,57 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
 <h2>Medicos</h2>
 	
 	<h3>Agregar Medicos</h3>
-	<form method="post" action="ServletMedicos">
-	<input type="text" name="txtNombreUs" placeholder="NombreUs"/>
-	<input type="text" name="txtContra" placeholder="Contra"/>
-	<input type="text" name="txtContraConfirm" placeholder="Confirmar Contra"/>
-		<input type="text" name="Dni" placeholder="Dni"/>
-		<input type="text" name="Nombre" placeholder="Nombre"/>
-		<input type="text" name="Apellido" placeholder="Apellido"/>
-		<select name="Sexo">
-		  <option value="Sexo" selected>Sexo</option>
+	<form class="form-inline registerForm" method="post" action="ServletMedicos">
+	
+	<div class="form-group">
+	
+	<p><input type="text" name="txtNombreUs" placeholder="NombreUs" required/>
+	 <input type="text" name="txtContra" placeholder="Contra" required/>
+	 <input type="text" name="txtContraConfirm" placeholder="Confirmar Contra" required/> </p>
+	<p>	<input type="text" name="txtDni" placeholder="Dni" required/>
+		<input type="text" name="txtNombre" placeholder="Nombre" required/>
+		<input type="text" name="txtApellido" placeholder="Apellido" required/> 
+		<select name="ddlSexo" required>
+		  <option value="Sexo" selected >Sexo</option>
 		  <option value="Masculino">Masculino</option>
 		  <option value="Femenino">Femenino</option>
 		  <option value="Otro">Otro</option>
 		</select>
 		
-		<input type="text" name="FechaDeNacimiento" placeholder="Fecha Nac (a-m-d)"/>
-		<input type="text" name="Nacionalidad" placeholder="Nacionalidad"/>
-		<input type="text" name="Provincia" placeholder="Provincia"/>
-		<input type="text" name="Localidad" placeholder="Localidad"/>
-		<input type="text" name="Direccion" placeholder="Dirección"/>
-		<input type="text" name="Mail" placeholder="Correo Electronico"/>
-		<input type="text" name="Telefono" placeholder="Teléfono"/>
-		<input type="text" name="Especialidad" placeholder="Especialidad"/>
-		<input type="submit" name="BtnAgregar" value="Agregar" />
+		<input type="date" name="FechaNac" placeholder="Fecha Nac (a-m-d)" required/></p>
+	<p>	<input type="text" name="Nacionalidad" placeholder="Nacionalidad" required/>
+		<input type="text" name="Provincia" placeholder="Provincia" required/>
+		<input type="text" name="Localidad" placeholder="Localidad" required/>
+		<input type="text" name="Direccion" placeholder="Dirección" required/></p>
+		<input type="email" name="Mail" placeholder="Correo Electronico" required/>
+		<input type="text" name="Telefono" placeholder="Teléfono" required/>
+		<input type="text" name="Especialidad" placeholder="Especialidad" required/>
+		<input type="submit" name="BtnAgregar" value="Agregar" required/>
+		</div>
 	</form>
+	
+<%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%>	
+	
 	<%
     String agregadoEs = null;
 	if(request.getAttribute("AgregadoEs") != null){
