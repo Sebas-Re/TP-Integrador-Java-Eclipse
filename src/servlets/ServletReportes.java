@@ -37,7 +37,11 @@ public class ServletReportes extends HttpServlet {
 			Reportes reporte = new Reportes();
 			reporte = negRep.CargarReportes();
 			
-			request.setAttribute("PruebaReportes", reporte.getDias_Mas_Concurridos());
+			request.setAttribute("DiaMasConcurrido", reporte.getDias_Mas_Concurridos());
+			request.setAttribute("FrecuenciaDiaMasConcurrido", reporte.getFrec_Dias_Mas_Concurridos());
+			request.setAttribute("HorariosMasConcurridos", reporte.getHorarios_Mas_Concurridos());
+			request.setAttribute("FrecuenciaHorarioMasConcurrido", reporte.getFrec_Horarios_Mas_Concurridos());
+			
 				}
 		
 		

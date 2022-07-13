@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 import dao.DaoReportes;
 import entidad.Reportes;
@@ -23,6 +24,8 @@ public class DaoReportesImpl implements DaoReportes{
 		Statement st;
 		ResultSet rs;
 		Reportes reporte = new Reportes();
+		Vector<Reportes> vRep = new Vector<Reportes>(12);
+		int Contador=0;
 		try 
 		{
 			
@@ -35,7 +38,8 @@ public class DaoReportesImpl implements DaoReportes{
 				
 				reporte.setDias_Mas_Concurridos(rs.getString("Dias mas concurridos"));
 				reporte.setFrec_Dias_Mas_Concurridos(rs.getString("Frecuencia"));
-				
+			//	vRep.add(Contador, reporte);
+			//	Contador++;
 			}
 			
 			st = conexion.createStatement();
@@ -45,7 +49,7 @@ public class DaoReportesImpl implements DaoReportes{
 			{
 				/*Horario es tipo date, asi que no se bien como pasarlo. Hay que revisarlo cuando tengamos tiempo */
 				
-				//reporte.setHorarios_Mas_Concurridos();
+				reporte.setHorarios_Mas_Concurridos(rs.getTime("Horarios mas concurridos"));
 				reporte.setFrec_Horarios_Mas_Concurridos(rs.getString("Frecuencia"));
 			}
 			

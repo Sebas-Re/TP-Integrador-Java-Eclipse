@@ -50,17 +50,7 @@ public class ServletLogIn extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		if(request.getParameter("btnLogIn")!=null) {
-			/*
-		La funcion crearia un objeto de tipo DaoClinicaImpl, el cual instanciaria una conexion a la base de datos y buscaria aquel usuario
-		cuyo usuario y contraseña fuera el mismo que el ingresado. En caso de que se encuentre, devolveria el tipo de usuario:
-		0 si es administrador (redirige a UsAdmOP.jsp)
-		1 si es medico [Redirige a UsuarioMedico.jsp (Si quieren, cambiar nombre pagina a UsMed.jsp para mayor consistencia en nombres)]
-		-1 si no existe. (Redirige a LogIn.jsp)
-		
-	    El resultado de esta funcion estaría decidido a partir de un switch(TipoUsuario), el cual redirigiria a la pagina correspondiente
-	    dependiendo del tipo de usuario devuelto por la BD
-	
-	       */
+
 			
 		DaoUsuarioImpl DaoUsuario = new DaoUsuarioImpl();
 		Usuario us = DaoUsuario.validarUsuario(request.getParameter("txtLogInUsuario").toString(), request.getParameter("txtLogInPass").toString());
