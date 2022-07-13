@@ -26,22 +26,39 @@ public class MedicoNegocioImpl implements MedicoNegocio {
 	
 	@Override
 	public int agregarMedico(Usuario us, Medicos Med) {
-		return UserDao.agregarMedico(us, Med);
+		return DaoMedico.agregarMedico(us, Med);
 	}
 
 	@Override
-	public boolean bajaLogicaMedico(Usuario us) {
-		return UserDao.bajaLogicaMedico(us);
-	}
-
-	@Override
-	public boolean modificarMedico(Usuario us) {
-		return UserDao.modificarMedicos(us);
+	public boolean modificarMedico(Medicos m) {
+		return DaoMedico.modificarMedico(m);
 	}
 
 	@Override
 	public ArrayList<Medicos> listarMedicos() {
-		return UserDao.listarMedicos();
+		return DaoMedico.ListarMedico();
+	}
+	
+	@Override
+	public ArrayList<Medicos> FiltrarNombreEstado(Medicos m) {
+		ArrayList<Medicos> lista = null;
+		if(!m.getNombre_m().equals("")) {
+			if(m.getEstado()==0||m.getEstado()==1) {
+				lista=DaoMedico.FiltrarNombreEstado(m);
+			}
+			else {
+				lista=DaoMedico.FiltrarNombre(m);
+			}
+			
+		}
+		else {
+			if(m.getEstado()==0||m.getEstado()==1) {
+				lista=DaoMedico.FiltrarEstado(m);
+			}
+			else
+			lista=DaoMedico.ListarMedico();
+		}
+		return  lista;
 	}
 	
 	

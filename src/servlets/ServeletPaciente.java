@@ -37,8 +37,25 @@ public class ServeletPaciente extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("Probando do get");
 		Boolean filas = false;
+		if(request.getParameter("ListarPacientes")!=null) {
+			
+			
+			try {
+				Pacientes p = new Pacientes();
+				PacienteNegocioImpl neg = new PacienteNegocioImpl();
+				
+				ArrayList<Pacientes> lista= neg.listarPaciente(); 
+				
+				request.setAttribute("ListaP", lista);
+				
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			RequestDispatcher rd = request.getRequestDispatcher("Pacientes.jsp");
+			rd.forward(request, response);	
+		}
 		
 		if(request.getParameter("btnFiltrar")!=null) {
 			Pacientes p = new Pacientes();
@@ -98,10 +115,12 @@ public class ServeletPaciente extends HttpServlet {
 			rd.forward(request, response);
 			
 		}
+		
 		if(request.getParameter("BtnModificar")!=null)
 		{
 			Pacientes p = new Pacientes();
-			PacienteNegocioImpl neg = new PacienteNegocioImpl();
+			PacienteNegocioImpl neg = new PacienteNegocioImpl();	
+			System.out.println(request.getParameter("Dni"));
 			p.setDNI(request.getParameter("Dni"));
 			p.setNombre(request.getParameter("Nombre"));
 			p.setApellido(request.getParameter("Apellido"));
@@ -117,8 +136,7 @@ public class ServeletPaciente extends HttpServlet {
 			
 			p.setEstado(Integer.parseInt(request.getParameter("Estado")));
 			
-			DaoPacienteImpl PacDao = new DaoPacienteImpl();
-			filas = PacDao.modificarPaciente(p);
+			filas = neg.modificarPaciente(p);
 			
 			ArrayList<Pacientes> lista= neg.listarPaciente();
 			

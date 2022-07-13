@@ -17,7 +17,7 @@ public class Medicos extends Usuario
 	private String especialidad;
 	private String dia;
 	private String horarioAtencion;
-	private boolean Estado;
+	private int Estado;
 
 	
 	public Medicos() {
@@ -28,7 +28,7 @@ public class Medicos extends Usuario
 	
 	public Medicos(String dni_m, String nombre_m, String apellido_m, String sexo_m, String fechaNac_m, String Nacionalidad,
 			String direccion_m, String localidad_m, String provincia_m, String correoElectronico_m, String telefono_m,
-			String especialidad, String dia, String horarioAtencion, boolean Estado) {
+			String especialidad, String dia, String horarioAtencion, int Estado) {
 		super();
 		this.dni_m = dni_m;
 		this.nombre_m = nombre_m;
@@ -135,13 +135,13 @@ public class Medicos extends Usuario
 
 
 
-	public boolean isEstado() {
+	public int getEstado() {
 		return Estado;
 	}
 
 
 
-	public void setEstado(boolean estado) {
+	public void setEstado(int estado) {
 		Estado = estado;
 	}
 

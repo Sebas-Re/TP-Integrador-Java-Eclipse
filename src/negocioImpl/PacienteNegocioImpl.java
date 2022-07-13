@@ -45,6 +45,8 @@ public class PacienteNegocioImpl implements PacienteNegocio {
 			if(p.getEstado()==0||p.getEstado()==1) {
 				lista=PacienteDao.FiltrarEstado(p);
 			}
+			else
+			lista=PacienteDao.listarPaciente();
 		}
 		return  lista;
 	}

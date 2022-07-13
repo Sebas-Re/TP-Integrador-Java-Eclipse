@@ -2,7 +2,11 @@
     pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="negocioImpl.PacienteNegocioImpl"%>
+<%@page import="negocioImpl.NacionalidadNegocioImpl"%>
 <%@page import="entidad.Pacientes"%>
+<%@page import="entidad.Pais"%>
+<%@page import="entidad.Provincia"%>
+<%@page import="entidad.Localidad"%>
 <%@page import="java.sql.*" %>
 <%@page import="entidad.Usuario"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -11,6 +15,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
 <title>Pacientes</title>
+
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
@@ -26,10 +31,29 @@
 </head>
 <body>
 <%
-
+/*
 Usuario UsuarioLogeado = new Usuario();
 UsuarioLogeado = (Usuario) session.getAttribute("DatosUsuario");
 String MensajeBienvenida = "Bienvenido "+UsuarioLogeado.getNombreUsuario();
+*/
+	String MensajeBienvenida = "Bienvenido";
+
+	Pais pais = new Pais();
+	NacionalidadNegocioImpl negNac = new NacionalidadNegocioImpl();
+	
+	ArrayList<Pais> listaPaises=null;
+	listaPaises = negNac.traerPaises();
+	/*
+	if(request.getAttribute("ListaPaises")!=null)
+	{
+		listaPaises = (ArrayList<Pais>)request.getAttribute("ListaPaises");
+	}
+	*/
+	ArrayList<Provincia> listaProvincias=null;
+	listaProvincias = negNac.traerProvincias();
+	
+	ArrayList<Localidad> listaLocalidades=null;
+	listaLocalidades = negNac.traerLocalidades();
 %>
 <div>
 
@@ -57,16 +81,75 @@ String MensajeBienvenida = "Bienvenido "+UsuarioLogeado.getNombreUsuario();
 		
 		<input type="text" name="FechaDeNacimiento" placeholder="Fecha de nacimiento"/>
 		
-		<select>
+		<select id="Nacionalidad" name="Nacionalidad">
 			<option value="0">Seleccionar nacionalidad</option>
-		</select>
-		<select>
-			<option value="0">Seleccionar nacionalidad</option>
+		<%
+		int idPais;
+		String nombrePais;
+		if(listaPaises != null)
+		{
+			for(Pais p : listaPaises)
+			{
+				idPais = p.getId();
+				nombrePais = p.getNombre();
+			%>
+			<option value="<%=idPais%>"><%=nombrePais%></option>
+			<%
+			}
+		}
+			%>
 		</select>
 		
+		
+		
+		<select id="Provincia" name="Provincia">
+			<option value="0">Seleccionar Provincia</option>
+			<%
+			int idProv;
+			int idProvPais;
+			String nombreProv;
+			if(listaProvincias != null)
+			{
+				for(Provincia prov : listaProvincias)
+				{
+					idProv = prov.getIdProv();
+					idProvPais = prov.getIdPaisProv();
+					nombreProv = prov.getNombreProv();
+				%>
+				<option value="<%=idProv%>"><%=nombreProv%></option>
+				<%
+				}
+			}
+			%>
+		</select>
+		
+		<select id="Localidad" name="Localidad">
+			<option value="0">Seleccionar Localidad</option>
+			<%
+			int idLoc;
+			int idLocProv;
+			String nombreLoc;
+			if(listaLocalidades != null)
+			{
+				for(Localidad loc : listaLocalidades)
+				{
+					idLoc = loc.getIdLoc();
+					idProvPais = loc.getIdProvLoc();
+					nombreLoc = loc.getNombreLoc();
+				%>
+				<option value="<%=idLoc%>"><%=nombreLoc%></option>
+				<%
+				}
+			}
+			%>
+		</select>
+		
+		<!-- 
 		<input type="text" name="Nacionalidad" placeholder="Nacionalidad"/>
 		<input type="text" name="Provincia" placeholder="Provincia"/>
 		<input type="text" name="Localidad" placeholder="Localidad"/>
+		 -->
+		
 		<input type="text" name="Direccion" placeholder="Dirección"/>
 		<input type="text" name="Mail" placeholder="Correo Electronico"/>
 		<input type="text" name="Telefono" placeholder="Teléfono"/>
@@ -115,7 +198,7 @@ String MensajeBienvenida = "Bienvenido "+UsuarioLogeado.getNombreUsuario();
        }
 %>
 <%
-    String modificadoEs = "hola";
+    String modificadoEs = null;
 	if(request.getAttribute("ModificacionEs") != null){
 		modificadoEs = request.getAttribute("ModificacionEs").toString();
 			if(modificadoEs == "true")
@@ -130,7 +213,6 @@ String MensajeBienvenida = "Bienvenido "+UsuarioLogeado.getNombreUsuario();
 			<%
 		}
 	%>
-	<%=modificadoEs%>
 <table id="tablaListar" class="display">
 	<thead>
 		<tr>
@@ -266,7 +348,7 @@ String MensajeBienvenida = "Bienvenido "+UsuarioLogeado.getNombreUsuario();
 
     $(document).ready(function() {
 
-      $('#tablaListar').DataTable({
+      $('#tablaListar2').DataTable({
 
         "language": {
 

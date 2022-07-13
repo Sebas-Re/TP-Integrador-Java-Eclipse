@@ -15,6 +15,7 @@ import entidad.Pacientes;
 import entidad.Turnos;
 import entidad.Usuario;
 import negocioImpl.MedicoNegocioImpl;
+import negocioImpl.PacienteNegocioImpl;
 
 /**
  * Servlet implementation class ServletMedicos
@@ -35,7 +36,9 @@ public class ServletMedicos extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getParameter("Param=1")!=null) {
+    	Boolean filas = false;
+    	
+    	if(request.getParameter("Param=1")!=null) {
 			try {
 			MedicoNegocioImpl neg = new MedicoNegocioImpl();
 			ArrayList<Turnos> lista= neg.listarTurnos();
@@ -51,16 +54,14 @@ public class ServletMedicos extends HttpServlet {
 					
 		}
 		
-		if(request.getParameter("btnInformacion")!=null) {
+		if(request.getParameter("ListarMedicos")!=null) {
 			
 			try {
 				MedicoNegocioImpl neg = new MedicoNegocioImpl();
-				Pacientes p = new Pacientes();
-				p.setDNI(request.getParameter("DNI_Paciente"));
-				ArrayList<Pacientes> lista= neg.ListarPacientePorDNI(p);
+				ArrayList<Medicos> lista= neg.listarMedicos();
 				
-				request.setAttribute("ListaP", lista);
-				RequestDispatcher rd = request.getRequestDispatcher("InformacionTurnoPaciente.jsp");
+				request.setAttribute("ListaM", lista);
+				RequestDispatcher rd = request.getRequestDispatcher("Medicos.jsp");
 				rd.forward(request, response);	
 			}
 			catch (Exception e) {
@@ -69,7 +70,115 @@ public class ServletMedicos extends HttpServlet {
 			
 		}
 		
-	}
+		if(request.getParameter("BtnAgregar")!=null) {
+			int Agregado = 0;
+			try {
+				ArrayList<Medicos> lista = new ArrayList<Medicos>();
+				Usuario Us = new Usuario();
+				
+				Us.setNombreUsuario(request.getParameter("NombreUs"));
+				Us.setContraseñaUsuario(request.getParameter("Contra")); //recordar que en la vista hay que pedirla 2 veces para confirmar.
+				Us.seteMailUsuario(request.getParameter("Email")); //no entiendo porque se pide el mail¿?
+				Us.setTipoUsuario(0);
+				
+				Medicos med = new Medicos();
+				
+				med.setDni_m(request.getParameter("Dni"));
+				med.setNombre_m(request.getParameter("NombreMed"));
+				med.setApellido_m(request.getParameter("Apellido"));
+				med.setSexo_m(request.getParameter("Sexo"));
+				med.setFechaNac_m(request.getParameter("FechaNac"));
+				med.setDireccion_m(request.getParameter("Direc"));
+				med.setLocalidad_m(request.getParameter("Localidad"));
+				med.setProvincia_m(request.getParameter("Prov"));
+				med.setCorreoElectronico_m(request.getParameter("Email"));
+				med.setTelefono_m(request.getParameter("Telefono"));
+				med.setEspecialidad(request.getParameter("Especialidad"));
+				//med.setDia(request.getParameter("txtDia"));
+				//med.setHorarioAtencion(request.getParameter("txtHorarioAtencion"));
+				med.setEstado(1);
+				
+				MedicoNegocioImpl negMed = new MedicoNegocioImpl();
+				
+				Agregado = negMed.agregarMedico(Us, med);	
+				
+				lista = negMed.listarMedicos();
+				
+				request.setAttribute("ListaM", lista);
+				request.setAttribute("ModificacionEsM", filas);
+				
+			}
+			catch (Exception e) {
+				// TODO: handle exception
+			}
+			RequestDispatcher rd = request.getRequestDispatcher("Medicos.jsp");
+			rd.forward(request, response);
+		}
+			
+			if(request.getParameter("btnFiltrar")!=null) {
+				Medicos M = new Medicos();
+				MedicoNegocioImpl neg = new MedicoNegocioImpl();
+				
+				if(!request.getParameter("txtFiltrarNombre").equals("")) {
+					M.setNombre_m(request.getParameter("txtFiltrarNombre"));
+				}
+				else M.setNombre_m("");
+				switch (request.getParameter("FiltarEstado")) {
+				case "0":
+					M.setEstado(0);
+					break;
+				case "1":
+					M.setEstado(1);
+					break;
+				case "2":
+					M.setEstado(2);
+					break;
+				default:
+					break;
+				}
+				
+				
+				ArrayList<Medicos> lista= neg.FiltrarNombreEstado(M); 
+				
+				request.setAttribute("ListaM", lista);
+				RequestDispatcher rd = request.getRequestDispatcher("Medicos.jsp");
+				rd.forward(request, response);	
+			}
+			
+			if(request.getParameter("BtnModificar")!=null)
+				
+			{
+				Medicos m = new Medicos();
+				MedicoNegocioImpl neg = new MedicoNegocioImpl();	
+				System.out.println(request.getParameter("Dni"));
+				m.setDni_m(request.getParameter("Dni"));
+				m.setNombre_m(request.getParameter("Nombre"));
+				m.setApellido_m(request.getParameter("Apellido"));
+				m.setSexo_m(request.getParameter("Sexo"));
+				m.setNacionalidad(request.getParameter("Nacionalidad"));
+				
+				m.setFechaNac_m(request.getParameter("FechaDeNacimiento"));
+				m.setDireccion_m(request.getParameter("Direccion"));
+				m.setLocalidad_m(request.getParameter("Localidad"));
+				m.setProvincia_m(request.getParameter("Provincia"));
+				m.setCorreoElectronico_m(request.getParameter("Mail"));
+				m.setTelefono_m(request.getParameter("Telefono"));
+				m.setEspecialidad(request.getParameter("Especialidad"));
+				
+				m.setEstado(Integer.parseInt(request.getParameter("Estado")));
+
+				filas = neg.modificarMedico(m);
+				
+				ArrayList<Medicos> lista= neg.listarMedicos(); 
+				
+				request.setAttribute("ListaM", lista);
+				request.setAttribute("ModificacionEsM", filas);
+				RequestDispatcher rd = request.getRequestDispatcher("Medicos.jsp");
+				rd.forward(request, response);
+			}
+			
+		}
+		
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -103,7 +212,7 @@ public class ServletMedicos extends HttpServlet {
 		med.setEspecialidad(request.getParameter("txtEsp"));
 		med.setDia(request.getParameter("txtDia"));
 		med.setHorarioAtencion(request.getParameter("txtHorarioAtencion"));
-		med.setEstado(true);
+		med.setEstado(1);
 		
 		MedicoNegocioImpl negMed = new MedicoNegocioImpl();
 		
