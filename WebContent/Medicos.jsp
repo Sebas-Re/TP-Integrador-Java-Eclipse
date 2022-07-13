@@ -54,9 +54,10 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
 <h2>Medicos</h2>
 	
 	<h3>Agregar Medicos</h3>
-	<form method="get" action="ServletMedicos">
-	<input type="text" name="Dni" placeholder="NombreUs"/>
-	<input type="text" name="Dni" placeholder="Contra"/>
+	<form method="post" action="ServletMedicos">
+	<input type="text" name="txtNombreUs" placeholder="NombreUs"/>
+	<input type="text" name="txtContra" placeholder="Contra"/>
+	<input type="text" name="txtContraConfirm" placeholder="Confirmar Contra"/>
 		<input type="text" name="Dni" placeholder="Dni"/>
 		<input type="text" name="Nombre" placeholder="Nombre"/>
 		<input type="text" name="Apellido" placeholder="Apellido"/>
@@ -83,10 +84,10 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
 		agregadoEs = request.getAttribute("AgregadoEs").toString();
 			if(agregadoEs == "true")
 			{
-				agregadoEs = "Paciente agregado exitosamente.";
+				agregadoEs = "Medico agregado exitosamente.";
 			}
 			else {
-				agregadoEs = "El paciente no pudo ser agregado.";
+				agregadoEs = "El Medico no pudo ser agregado. Asegurese que los datos ingresados sean validos";
 			}
 			%>
 			<%=agregadoEs%>
@@ -170,7 +171,7 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
 
    	%>
    		<tr> 	 
-   		  	<form method="get" action="ServeletPaciente">
+   		  	<form method="get" action="ServeletMedicos">
    		  		<td><%=med.getDni_m() %><input type="hidden" name="Dni" value="<%=med.getDni_m()%>" /></td> 
    				<td><input name="Nombre" value="<%=med.getNombre_m()%>" /></td>
    				<td><input name="Apellido" value="<%=med.getApellido_m() %>" /></td>

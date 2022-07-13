@@ -70,51 +70,9 @@ public class ServletMedicos extends HttpServlet {
 			
 		}
 		
-		if(request.getParameter("BtnAgregar")!=null) {
-			int Agregado = 0;
-			try {
-				ArrayList<Medicos> lista = new ArrayList<Medicos>();
-				Usuario Us = new Usuario();
-				
-				Us.setNombreUsuario(request.getParameter("NombreUs"));
-				Us.setContraseñaUsuario(request.getParameter("Contra")); //recordar que en la vista hay que pedirla 2 veces para confirmar.
-				Us.seteMailUsuario(request.getParameter("Email")); //no entiendo porque se pide el mail¿?
-				Us.setTipoUsuario(0);
-				
-				Medicos med = new Medicos();
-				
-				med.setDni_m(request.getParameter("Dni"));
-				med.setNombre_m(request.getParameter("NombreMed"));
-				med.setApellido_m(request.getParameter("Apellido"));
-				med.setSexo_m(request.getParameter("Sexo"));
-				med.setFechaNac_m(request.getParameter("FechaNac"));
-				med.setDireccion_m(request.getParameter("Direc"));
-				med.setLocalidad_m(request.getParameter("Localidad"));
-				med.setProvincia_m(request.getParameter("Prov"));
-				med.setCorreoElectronico_m(request.getParameter("Email"));
-				med.setTelefono_m(request.getParameter("Telefono"));
-				med.setEspecialidad(request.getParameter("Especialidad"));
-				//med.setDia(request.getParameter("txtDia"));
-				//med.setHorarioAtencion(request.getParameter("txtHorarioAtencion"));
-				med.setEstado(1);
-				
-				MedicoNegocioImpl negMed = new MedicoNegocioImpl();
-				
-				Agregado = negMed.agregarMedico(Us, med);	
-				
-				lista = negMed.listarMedicos();
-				
-				request.setAttribute("ListaM", lista);
-				request.setAttribute("ModificacionEsM", filas);
-				
-			}
-			catch (Exception e) {
-				// TODO: handle exception
-			}
-			RequestDispatcher rd = request.getRequestDispatcher("Medicos.jsp");
-			rd.forward(request, response);
-		}
-			
+
+		
+		
 			if(request.getParameter("btnFiltrar")!=null) {
 				Medicos M = new Medicos();
 				MedicoNegocioImpl neg = new MedicoNegocioImpl();
@@ -183,18 +141,34 @@ public class ServletMedicos extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+    
+   
+    
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int Agregado = 0;
 		
 		if(request.getParameter("BtnAgregar")!=null)
 		{
-		
-		
+		request.setAttribute("ContraInvalida", null);
+		request.setAttribute("txtEmail",null);
 		Usuario Us = new Usuario();
 		
 		Us.setNombreUsuario(request.getParameter("txtNombreUs"));
-		Us.setContraseñaUsuario(request.getParameter("txtContra")); //recordar que en la vista hay que pedirla 2 veces para confirmar.
-		Us.seteMailUsuario(request.getParameter("txtEmail"));
+		String Contra1=request.getParameter("txtContra").toString();
+		String Contra2=request.getParameter("txtContraConfirm").toString();
+		if(Contra1.equals(Contra2) && Contra1 != "" && Contra2 != "") {
+			Us.setContraseñaUsuario(request.getParameter("txtContra"));
+		}
+		else {
+			response.sendRedirect(request.getContextPath() + "/ServletMedicos?" + "ListarMedicos=1&ContraInvalida=true");
+		return;
+		}
+		
+		if(request.getParameter("txtEmail") == null) {
+			response.sendRedirect(request.getContextPath() + "/ServletMedicos?" + "ListarMedicos=1&EmailVacio=true");
+			return;
+		}
+		 
 		Us.setTipoUsuario(0);
 		
 		Medicos med = new Medicos();
