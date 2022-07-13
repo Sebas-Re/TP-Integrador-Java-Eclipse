@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import dao.DaoReportes;
@@ -16,15 +17,15 @@ public class DaoReportesImpl implements DaoReportes{
 	
 	
 	@Override
-	public Reportes CargarReportes()
+	public ArrayList<Reportes> CargarReportes()
 	{
 		// TODO Acá tendrian que estar las dos consultas SQL para cargar en el objeto reporte y devolverlo;
 		
 		Connection conexion;
 		Statement st;
 		ResultSet rs;
-		Reportes reporte = new Reportes();
-		Vector<Reportes> vRep = new Vector<Reportes>(12);
+		
+		ArrayList<Reportes> vRep = new ArrayList<Reportes>(3);
 		int Contador=0;
 		try 
 		{
@@ -35,22 +36,26 @@ public class DaoReportesImpl implements DaoReportes{
 			
 			while(rs.next())
 			{
-				
+				Reportes reporte = new Reportes();
 				reporte.setDias_Mas_Concurridos(rs.getString("Dias mas concurridos"));
 				reporte.setFrec_Dias_Mas_Concurridos(rs.getString("Frecuencia"));
-			//	vRep.add(Contador, reporte);
-			//	Contador++;
+				vRep.add(Contador,reporte);
+				Contador++;
+			 //ultimo guardado en posicion 2.
 			}
 			
 			st = conexion.createStatement();
 			rs = st.executeQuery(HorariosMasConcurridos);
-			
+			Contador=0;
 			while (rs.next())
 			{
-				/*Horario es tipo date, asi que no se bien como pasarlo. Hay que revisarlo cuando tengamos tiempo */
 				
-				reporte.setHorarios_Mas_Concurridos(rs.getTime("Horarios mas concurridos"));
-				reporte.setFrec_Horarios_Mas_Concurridos(rs.getString("Frecuencia"));
+				
+
+				vRep.get(Contador).setHorarios_Mas_Concurridos(rs.getTime("Horarios mas concurridos"));
+				vRep.get(Contador).setFrec_Horarios_Mas_Concurridos(rs.getString("Frecuencia"));
+				
+				Contador++;
 			}
 			
 		} 
@@ -60,7 +65,7 @@ public class DaoReportesImpl implements DaoReportes{
 		}
 
 		
-		return reporte;
+		return vRep;
 	}
 
 }

@@ -1,8 +1,10 @@
 package negocio;
 
+import java.util.ArrayList;
+
 import entidad.Reportes;
 
 public interface ReportesNegocio
 {
-	public Reportes CargarReportes();
+	public ArrayList<Reportes> CargarReportes();
 }

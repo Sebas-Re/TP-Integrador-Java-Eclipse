@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,14 +36,23 @@ public class ServletReportes extends HttpServlet {
 		if(request.getParameter("MostrarReportes")!= null)
 				{
 			ReportesNegocioImpl negRep = new ReportesNegocioImpl();
-			Reportes reporte = new Reportes();
-			reporte = negRep.CargarReportes();
+			ArrayList<Reportes> vRep = new ArrayList<Reportes>(3);
+			vRep = negRep.CargarReportes();
 			
-			request.setAttribute("DiaMasConcurrido", reporte.getDias_Mas_Concurridos());
-			request.setAttribute("FrecuenciaDiaMasConcurrido", reporte.getFrec_Dias_Mas_Concurridos());
-			request.setAttribute("HorariosMasConcurridos", reporte.getHorarios_Mas_Concurridos());
-			request.setAttribute("FrecuenciaHorarioMasConcurrido", reporte.getFrec_Horarios_Mas_Concurridos());
+			request.setAttribute("DiaMasConcurrido1", vRep.get(0).getDias_Mas_Concurridos());
+			request.setAttribute("FrecuenciaDiaMasConcurrido1", vRep.get(0).getFrec_Dias_Mas_Concurridos());
+			request.setAttribute("HorarioMasConcurrido1",  vRep.get(0).getHorarios_Mas_Concurridos());
+			request.setAttribute("FrecuenciaHorarioMasConcurrido1", vRep.get(0).getFrec_Horarios_Mas_Concurridos());
 			
+			request.setAttribute("DiaMasConcurrido2", vRep.get(1).getDias_Mas_Concurridos());
+			request.setAttribute("FrecuenciaDiaMasConcurrido2", vRep.get(1).getFrec_Dias_Mas_Concurridos());
+			request.setAttribute("HorarioMasConcurrido2",  vRep.get(1).getHorarios_Mas_Concurridos());
+			request.setAttribute("FrecuenciaHorarioMasConcurrido2", vRep.get(1).getFrec_Horarios_Mas_Concurridos());
+			
+			request.setAttribute("DiaMasConcurrido3", vRep.get(2).getDias_Mas_Concurridos());
+			request.setAttribute("FrecuenciaDiaMasConcurrido3", vRep.get(2).getFrec_Dias_Mas_Concurridos());
+			request.setAttribute("HorarioMasConcurrido3",  vRep.get(2).getHorarios_Mas_Concurridos());
+			request.setAttribute("FrecuenciaHorarioMasConcurrido3", vRep.get(2).getFrec_Horarios_Mas_Concurridos());
 				}
 		
 		

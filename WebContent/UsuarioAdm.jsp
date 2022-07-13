@@ -42,8 +42,11 @@ String MensajeBienvenida = "Bienvenido "+UsuarioLogeado.getNombreUsuario();
 <br>
 </div>
 
+
+
+
 <%
-if(request.getAttribute("DiaMasConcurrido")!=null){
+if(request.getAttribute("DiaMasConcurrido1")!=null){
 	%>
 	<h3>Reporte General</h3>
 <table class="table table-hover">
@@ -58,20 +61,20 @@ if(request.getAttribute("DiaMasConcurrido")!=null){
   <tbody>
     <tr>
       <th scope="row">1</th>
-      <td><%=request.getAttribute("DiaMasConcurrido").toString() %></td>
-      <td><%=request.getAttribute("FrecuenciaDiaMasConcurrido").toString() %></td>
+      <td><%=request.getAttribute("DiaMasConcurrido1").toString() %></td>
+      <td><%=request.getAttribute("FrecuenciaDiaMasConcurrido1").toString() %></td>
 
     </tr>
     <tr>
       <th scope="row">2</th>
-      <td>-</td>
-      <td>-</td>
+      <td><%=request.getAttribute("DiaMasConcurrido2").toString()%></td>
+      <td><%=request.getAttribute("FrecuenciaDiaMasConcurrido2").toString()%></td>
 
     </tr>
         <tr>
       <th scope="row">3</th>
-      <td>-</td>
-      <td>-</td>
+      <td><%=request.getAttribute("DiaMasConcurrido3").toString()%></td>
+      <td><%=request.getAttribute("FrecuenciaDiaMasConcurrido3").toString()%></td>
 
     </tr>
     </tbody>
@@ -89,20 +92,20 @@ if(request.getAttribute("DiaMasConcurrido")!=null){
   <tbody>
     <tr>
       <th scope="row">1</th>
-      <td><%=request.getAttribute("HorariosMasConcurridos").toString()%></td>
-      <td><%=request.getAttribute("FrecuenciaHorarioMasConcurrido").toString() %></td>
+      <td><%=request.getAttribute("HorarioMasConcurrido1").toString() %></td>
+      <td><%=request.getAttribute("FrecuenciaHorarioMasConcurrido1").toString() %></td>
 
     </tr>
     <tr>
       <th scope="row">2</th>
-      <td>-</td>
-      <td>-</td>
+      <td><%=request.getAttribute("HorarioMasConcurrido2").toString()%></td>
+      <td><%=request.getAttribute("FrecuenciaHorarioMasConcurrido2").toString() %></td>
 
     </tr>
         <tr>
       <th scope="row">3</th>
-      <td>-</td>
-      <td>-</td>
+      <td><%=request.getAttribute("HorarioMasConcurrido3").toString()%></td>
+      <td><%=request.getAttribute("FrecuenciaHorarioMasConcurrido3").toString() %></td>
 
     </tr>
     </tbody>
@@ -111,6 +114,8 @@ if(request.getAttribute("DiaMasConcurrido")!=null){
 <% 
 }
 %>
+
+
 
 
 </body>

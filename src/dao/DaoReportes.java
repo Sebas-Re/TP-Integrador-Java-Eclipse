@@ -1,8 +1,10 @@
 package dao;
 
+import java.util.ArrayList;
+
 import entidad.Reportes;
 
 public interface DaoReportes
 {
-public Reportes CargarReportes();
+public ArrayList<Reportes> CargarReportes();
 }
