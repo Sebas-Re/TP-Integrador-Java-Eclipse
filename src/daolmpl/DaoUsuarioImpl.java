@@ -29,15 +29,15 @@ public class DaoUsuarioImpl implements DaoUsuario
 	Conexion Conexion = new Conexion();
 	
 	
-	 // Buscaría en la base de datos el siguiente ID y lo devolvería
-	public int retornarID()
-	{
-		//Esta funcion tendria que devolver el ultimo ID cargado (el cual sería el que tiene el cod mas grande) para aplicarselo luego
-		//a los medicos y administradores
-		
-		
-		return 0;
-	}
+//	 // Buscaría en la base de datos el siguiente ID y lo devolvería
+//	public int retornarID()
+//	{
+//		//Esta funcion tendria que devolver el ultimo ID cargado (el cual sería el que tiene el cod mas grande) para aplicarselo luego
+//		//a los medicos y administradores
+//		
+//		
+//		return 0;
+//	}
 
 	
 	

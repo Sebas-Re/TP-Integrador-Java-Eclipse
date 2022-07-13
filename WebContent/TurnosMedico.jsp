@@ -25,9 +25,9 @@ String MensajeBienvenida = "Bienvenido "+UsuarioLogeado.getNombreUsuario();
 <div>
 
 	<ul class="" id="Navegacion">
-	  <li class="nav__li"><a class="nav__li-a" href="UsuarioAdm.jsp">Home</a></li>
-	  <li class="nav__li"><a class="nav__li-a" href="Medicos.jsp">Medicos</a></li>
-	  <li class="nav__li"><a class="nav__li-a" href="Pacientes.jsp">Pacientes</a></li>
+	  <li class="nav__li"><a class="nav__li-a" href="ServletReportes?MostrarReportes=1">Home</a></li>
+	  <li class="nav__li"><a class="nav__li-a" href="ServletMedicos?ListarMedicos=1">Medicos</a></li>
+	  <li class="nav__li"><a class="nav__li-a" href="ServeletPaciente?ListarPacientes=1">Pacientes</a></li>
 	  <li class="nav__li"><a class="nav__li-a" href="Turnos.jsp">Turnos</a></li>
 	 <li class="nav__Usuario"><%=MensajeBienvenida%></li>
 	</ul>

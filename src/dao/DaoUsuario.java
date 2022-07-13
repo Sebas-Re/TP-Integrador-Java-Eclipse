@@ -8,7 +8,7 @@ import entidad.Usuario;
 
 public interface DaoUsuario
 {
-	public int retornarID();
+//	public int retornarID();
 	public Usuario validarUsuario(String Contraseña, String Usuario);
 	public boolean AgregarUsuario(Usuario us);
 }

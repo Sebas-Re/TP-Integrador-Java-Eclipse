@@ -4,5 +4,5 @@ import entidad.Reportes;
 
 public interface DaoReportes
 {
-public Reportes CargarReportes(Reportes reporte);
+public Reportes CargarReportes();
 }

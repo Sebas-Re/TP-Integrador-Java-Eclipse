@@ -29,7 +29,7 @@ public class Conexion implements Connection {
 	private String port = "3306";
 	private String db = "bdClinica";
 	private String user = "root";
-	private String pass = "admin";
+	private String pass = "root";
 	
 	
 	private String url = "jdbc:mysql://" + host + ":" + port + "/" + db + "?user=" + user + "&password=" + pass + "&useSSL=false";

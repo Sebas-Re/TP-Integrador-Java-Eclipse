@@ -15,13 +15,14 @@ public class DaoReportesImpl implements DaoReportes{
 	
 	
 	@Override
-	public Reportes CargarReportes(Reportes reporte)
+	public Reportes CargarReportes()
 	{
 		// TODO Acá tendrian que estar las dos consultas SQL para cargar en el objeto reporte y devolverlo;
 		
 		Connection conexion;
 		Statement st;
 		ResultSet rs;
+		Reportes reporte = new Reportes();
 		try 
 		{
 			

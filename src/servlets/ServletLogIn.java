@@ -1,6 +1,11 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+
 
 import daolmpl.DaoUsuarioImpl;
 import entidad.Usuario;
@@ -56,7 +63,7 @@ public class ServletLogIn extends HttpServlet {
 	       */
 			
 		DaoUsuarioImpl DaoUsuario = new DaoUsuarioImpl();
-		Usuario us = DaoUsuario.validarUsuario(request.getParameter("txtLogInUsuario"), request.getParameter("txtLogInPass"));
+		Usuario us = DaoUsuario.validarUsuario(request.getParameter("txtLogInUsuario").toString(), request.getParameter("txtLogInPass").toString());
 		
 		request.setAttribute("TipoUsuario", us.getTipoUsuario());
 		HttpSession session = request.getSession();	
@@ -64,12 +71,10 @@ public class ServletLogIn extends HttpServlet {
 		
 		switch (us.getTipoUsuario()) {
 		case 1: //Administrador
-			RequestDispatcher rd_admin = request.getRequestDispatcher("UsuarioAdm.jsp");
-			rd_admin.forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/ServletReportes?" + "MostrarReportes=1");
 			break;
 		case 0: //Medico
-			RequestDispatcher rd_medico = request.getRequestDispatcher("UsuarioMedico.jsp");
-			rd_medico.forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/ServletMedicos?" + "ListarMedicos=1");
 			break;
 		case -1: // No registrado en el sistema
 			RequestDispatcher rd_LogIn = request.getRequestDispatcher("LogIn.jsp");
@@ -82,5 +87,7 @@ public class ServletLogIn extends HttpServlet {
 		}
 		
 	}
+
+
 
 }
