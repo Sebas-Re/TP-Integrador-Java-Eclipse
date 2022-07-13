@@ -1,0 +1,98 @@
+@charset "ISO-8859-1";
+
+#Navegacion{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #2E64FE;
+}
+
+#Navegacion .nav__li{
+	float: left;
+}
+
+#Navegacion .nav__Usuario{
+ 	float:right;
+	color:white;
+	 margin-right: 50px;
+	 text-align: center;
+}
+
+ul li a{
+		display: block;
+	  color: white;
+	  text-align: center;
+	  padding: 14px 16px;
+	  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+	background-color: #A9F5A9;
+}
+
+.active {
+	background-color: #2E64FE;
+}
+
+h2{
+	text-align: center; 
+}
+
+
+
+
+.btnAgregar{
+	width: 40%;
+	margin-left: 15%;
+	border-radius: 10px;
+}
+
+.container{
+	font-size: smaller;
+	text-align: left;
+	border: 1px solid #ddd !importtant;
+}
+
+
+.conteinerTable{
+	text-align: center;
+}
+
+.btnControl{
+	  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;	
+}
+
+.btnAgregar{
+	text-align: left;
+}
+
+.form{
+	display: flex;
+	padding-left: 400px;
+}
+
+* {
+	font-size: 14px;
+	box-sizing: border-box;
+	padding: 0px;
+	margon 0px;
+}
