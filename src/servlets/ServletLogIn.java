@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 
 import daolmpl.DaoUsuarioImpl;
 import entidad.Usuario;
+import negocioImpl.NegocioTurnosImpl;
 
 
 /**
@@ -66,9 +67,10 @@ public class ServletLogIn extends HttpServlet {
 		// TODO Auto-generated method stub
 		if(request.getParameter("btnLogIn")!=null) {
 
-			
-		DaoUsuarioImpl DaoUsuario = new DaoUsuarioImpl();
-		Usuario us = DaoUsuario.validarUsuario(request.getParameter("txtLogInUsuario").toString(), request.getParameter("txtLogInPass").toString());
+		NegocioTurnosImpl neg = new NegocioTurnosImpl();	
+		Usuario us = neg.TraerUsuario(request.getParameter("txtLogInUsuario").toString(), request.getParameter("txtLogInPass").toString());		
+		
+		
 		
 		request.setAttribute("TipoUsuario", us.getTipoUsuario());
 		HttpSession session = request.getSession();	
@@ -76,10 +78,12 @@ public class ServletLogIn extends HttpServlet {
 		
 		switch (us.getTipoUsuario()) {
 		case 1: //Administrador
+			
 			response.sendRedirect(request.getContextPath() + "/ServletReportes?" + "MostrarReportes=1");
 			break;
 		case 0: //Medico
-			response.sendRedirect(request.getContextPath() + "/ServletMedicos?" + "ListarMedicos=1");
+			us = neg.TraerDNIMedico(us);
+			response.sendRedirect(request.getContextPath() + "/ServletMedicos?" + "UserMedico=1");
 			break;
 		case -1: // No registrado en el sistema
 			

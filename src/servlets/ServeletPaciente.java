@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,7 +16,13 @@ import java.util.Date;
 
 import daolmpl.DaoPacienteImpl;
 import daolmpl.DaoUsuarioImpl;
+import entidad.Localidad;
 import entidad.Pacientes;
+import entidad.Pais;
+import entidad.Provincia;
+import entidad.Turnos;
+import negocioImpl.MedicoNegocioImpl;
+import negocioImpl.NacionalidadNegocioImpl;
 import negocioImpl.PacienteNegocioImpl;
 
 /**
@@ -38,11 +46,26 @@ public class ServeletPaciente extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Boolean filas = false;
+
+		
 		if(request.getParameter("ListarPacientes")!=null) {
-			
-			
+
 			try {
-				Pacientes p = new Pacientes();
+				NacionalidadNegocioImpl negNac = new NacionalidadNegocioImpl();
+				
+				ArrayList<Pais> listaPaises=null;
+				listaPaises = negNac.traerPaises();
+				
+				ArrayList<Provincia> listaProvincias=null;
+				listaProvincias = negNac.traerProvincias();
+				
+				ArrayList<Localidad> listaLocalidades=null;
+				listaLocalidades = negNac.traerLocalidades();
+				
+				request.setAttribute("listaPaises", listaPaises);
+				request.setAttribute("listaProvincias", listaProvincias);
+				request.setAttribute("listaLocalidades", listaLocalidades);
+				
 				PacienteNegocioImpl neg = new PacienteNegocioImpl();
 				
 				ArrayList<Pacientes> lista= neg.listarPaciente(); 
@@ -95,6 +118,7 @@ public class ServeletPaciente extends HttpServlet {
 			p.setApellido(request.getParameter("Apellido"));
 			p.setSexo(request.getParameter("Sexo"));
 			p.setNacionalidad(request.getParameter("Nacionalidad"));
+			
 			
 			p.setFechaNacimiento(request.getParameter("FechaDeNacimiento"));
 			p.setDireccion(request.getParameter("Direccion"));

@@ -13,11 +13,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entidad.Localidad;
 import entidad.Medicos;
 import entidad.Pacientes;
+import entidad.Pais;
+import entidad.Provincia;
 import entidad.Turnos;
 import entidad.Usuario;
 import negocioImpl.MedicoNegocioImpl;
+import negocioImpl.NacionalidadNegocioImpl;
 import negocioImpl.PacienteNegocioImpl;
 
 /**
@@ -56,10 +60,26 @@ public class ServletMedicos extends HttpServlet {
 			}
 					
 		}
-		
+    	
+    	
 		if(request.getParameter("ListarMedicos")!=null) {
 			
 			try {
+				NacionalidadNegocioImpl negNac = new NacionalidadNegocioImpl();
+				
+				ArrayList<Pais> listaPaises=null;
+				listaPaises = negNac.traerPaises();
+				
+				ArrayList<Provincia> listaProvincias=null;
+				listaProvincias = negNac.traerProvincias();
+				
+				ArrayList<Localidad> listaLocalidades=null;
+				listaLocalidades = negNac.traerLocalidades();
+				
+				request.setAttribute("listaPaises", listaPaises);
+				request.setAttribute("listaProvincias", listaProvincias);
+				request.setAttribute("listaLocalidades", listaLocalidades);
+				
 				MedicoNegocioImpl neg = new MedicoNegocioImpl();
 				ArrayList<Medicos> lista= neg.listarMedicos();
 				
@@ -72,9 +92,6 @@ public class ServletMedicos extends HttpServlet {
 			}
 			
 		}
-		
-
-		
 		
 			if(request.getParameter("btnFiltrar")!=null) {
 				Medicos M = new Medicos();
@@ -136,6 +153,19 @@ public class ServletMedicos extends HttpServlet {
 				request.setAttribute("ModificacionEsM", filas);
 				RequestDispatcher rd = request.getRequestDispatcher("Medicos.jsp");
 				rd.forward(request, response);
+			}
+			
+			
+			if(request.getParameter("UserMedico")!=null) {
+				
+				try{
+			
+				RequestDispatcher rd = request.getRequestDispatcher("UsuarioMedico.jsp");
+				rd.forward(request, response);
+				}
+				catch (Exception e) {
+					
+				}
 			}
 			
 		}

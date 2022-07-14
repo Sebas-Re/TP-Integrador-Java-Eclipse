@@ -4,6 +4,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import="entidad.Usuario"%>
+<%@page import="entidad.Pais"%>
+<%@page import="entidad.Provincia"%>
+<%@page import="entidad.Localidad"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -48,7 +51,27 @@ String MensajeBienvenida = "Bienvenido "+UsuarioLogeado.getNombreUsuario();
 response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVencida=1");
 
 }
+
+	
+	ArrayList<Pais> listaPaises=null;
+	ArrayList<Provincia> listaProvincias=null;
+	ArrayList<Localidad> listaLocalidades=null;
+	
+	if(request.getAttribute("listaPaises")!=null)
+	{
+		listaPaises = (ArrayList<Pais>)request.getAttribute("listaPaises");
+	}
+	if(request.getAttribute("listaProvincias")!=null)
+	{
+		listaProvincias = (ArrayList<Provincia>)request.getAttribute("listaProvincias");
+	}
+	if(request.getAttribute("listaLocalidades")!=null)
+	{
+		listaLocalidades = (ArrayList<Localidad>)request.getAttribute("listaLocalidades");
+	}
+	
 %>
+
 
 <h2>Medicos</h2>
 	
@@ -71,9 +94,71 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
 		</select>
 		
 		<input type="date" name="FechaNac" placeholder="Fecha Nac (a-m-d)" required/></p>
-	<p>	<input type="text" name="Nacionalidad" placeholder="Nacionalidad" required/>
-		<input type="text" name="Provincia" placeholder="Provincia" required/>
-		<input type="text" name="Localidad" placeholder="Localidad" required/>
+		
+		
+	<p>	<select id="Nacionalidad" name="Nacionalidad" required>
+				<option value="0">Seleccionar nacionalidad</option>
+				<%
+				int idPais;
+				String nombrePais;
+				if(listaPaises != null)
+				{
+					for(Pais p : listaPaises)
+					{
+						idPais = p.getId();
+						nombrePais = p.getNombre();
+					%>
+					<option value="<%=idPais%>"><%=nombrePais%></option>
+					<%
+					}
+				}
+					%>
+			</select>
+
+			<select id="Provincia" name="Provincia" required>
+				<option value="0">Seleccionar Provincia</option>
+				<%
+				int idProv;
+				int idProvPais;
+				String nombreProv;
+				if(listaProvincias != null)
+				{
+					for(Provincia prov : listaProvincias)
+					{
+						idProv = prov.getIdProv();
+						idProvPais = prov.getIdPaisProv();
+						nombreProv = prov.getNombreProv();
+					%>
+					<option value="<%=idProv%>"><%=nombreProv%></option>
+					<%
+					}
+				}
+				%>
+			</select>
+		
+			<select id="Localidad" name="Localidad" required>
+				<option value="0">Seleccionar Localidad</option>
+				<%
+				int idLoc;
+				int idLocProv;
+				String nombreLoc;
+				if(listaLocalidades != null)
+				{
+					for(Localidad loc : listaLocalidades)
+					{
+						idLoc = loc.getIdLoc();
+						idProvPais = loc.getIdProvLoc();
+						nombreLoc = loc.getNombreLoc();
+					%>
+					<option value="<%=idLoc%>"><%=nombreLoc%></option>
+					<%
+					}
+				}
+				%>
+			</select>
+		
+		
+		
 		<input type="text" name="Direccion" placeholder="Dirección" required/></p>
 		<input type="email" name="Mail" placeholder="Correo Electronico" required/>
 		<input type="text" name="Telefono" placeholder="Teléfono" required/>
@@ -114,8 +199,8 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
 			  <option value="0">Baja</option>
 			  <option value="1">Alta</option>
 			</select>
-		<input type="submit" name="btnFiltrar" value="Filtar">
-
+		<input type="submit" name="btnFiltrar" value="Filtrar">
+</form>
 <%	
 	ArrayList<Medicos> listarMedicos=null;
 	String modificadoEs = " ";
@@ -160,15 +245,15 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
 	</thead>
     <tbody>
     
-       <%   
+ <%   
        if(listarMedicos!=null)
        {
-
     	   for(Medicos med : listarMedicos) 
    		{
 
    			int estadoPac;
    			String sexoPac = "null";
+   			String nacmed, provmed, locmed;
    			switch(med.getSexo_m())
    			{
    			case "Masculino": sexoPac = "Masculino";
@@ -181,7 +266,7 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
 
    	%>
    		<tr> 	 
-   		  	<form method="get" action="ServeletMedicos">
+   		  	<form method="get" action="ServletMedicos">
    		  		<td><%=med.getDni_m() %><input type="hidden" name="Dni" value="<%=med.getDni_m()%>" /></td> 
    				<td><input name="Nombre" value="<%=med.getNombre_m()%>" /></td>
    				<td><input name="Apellido" value="<%=med.getApellido_m() %>" /></td>
@@ -227,9 +312,263 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
    					}
    				%>
    				<td><input name="FechaDeNacimiento" value="<%=med.getFechaNac_m() %>" /></td>
-   				<td><input name="Nacionalidad" value="<%=med.getNacionalidad() %>" /></td>
-   				<td><input name="Provincia" value="<%=med.getProvincia_m() %>" /></td>
-   				<td><input name="Localidad" value="<%=med.getLocalidad_m() %>" /></td>
+   				<%
+   					nacmed = med.getNacionalidad();
+   					switch(med.getNacionalidad())
+   					{
+	   					case "1":
+	   						%>
+	   						<td>
+	   							<select name="Nacionalidad">
+	   								<option value="1" selected>Argentina</option>
+	   								<option value="2">Colombia</option>
+	   								<option value="3">Brasil</option>
+	   							</select>
+	   						</td>
+	   						<%
+	   						break;
+	   					case "2":
+	   						%>
+	   						<td>
+	   							<select name="Nacionalidad">
+	   								<option value="1">Argentina</option>
+	   								<option value="2" selected>Colombia</option>
+	   								<option value="3">Brasil</option>
+	   							</select>
+	   						</td>
+	   						<%
+	   						break;
+	   					case "3":
+	   						%>
+	   						<td>
+	   							<select name="Nacionalidad">
+	   								<option value="1">Argentina</option>
+	   								<option value="2">Colombia</option>
+	   								<option value="3" selected>Brasil</option>
+	   							</select>
+	   						</td>
+	   						<%
+	   						break;
+   					}
+   					%>
+   					<% 
+   					switch(med.getProvincia_m()){
+	   					case "1":
+	   						%>
+	   						<td>
+		   						<select name="Provincia">
+									<option value="1" selected>Buenos Aires</option>
+									<option value="2">Chubut</option>
+									<option value="3">Mendoza</option>
+									<option value="4">Antioquia</option>
+									<option value="5">Bolívar</option>
+									<option value="6">Bahia</option>
+									<option value="7">Goias</option>
+								</select>
+							</td>
+	   						<%
+	   						break;
+	   					case "2":
+	   						%>
+	   						<td>
+	   						<select name="Provincia">
+								<option value="1">Buenos Aires</option>
+								<option value="2" selected>Chubut</option>
+								<option value="3">Mendoza</option>
+								<option value="4">Antioquia</option>
+								<option value="5">Bolívar</option>
+								<option value="6">Bahia</option>
+								<option value="7">Goias</option>
+							</select>
+							</td>
+   						<%
+	   						break;
+	   					case "3":
+	   						%>
+	   						<td>
+	   						<select name="Provincia">
+								<option value="1">Buenos Aires</option>
+								<option value="2">Chubut</option>
+								<option value="3" selected>Mendoza</option>
+								<option value="4">Antioquia</option>
+								<option value="5">Bolívar</option>
+								<option value="6">Bahia</option>
+								<option value="7">Goias</option>
+							</select>
+							</td>
+   						<%
+	   						break;
+	   					case "4":
+	   						%>
+	   						<td>
+	   						<select name="Provincia">
+								<option value="1">Buenos Aires</option>
+								<option value="2">Chubut</option>
+								<option value="3">Mendoza</option>
+								<option value="4" selected>Antioquia</option>
+								<option value="5">Bolívar</option>
+								<option value="6">Bahia</option>
+								<option value="7">Goias</option>
+							</select>
+							</td>
+   						<%
+	   						break;
+	   					case "5":
+	   						%>
+	   						<td>
+	   						<select name="Provincia">
+								<option value="1">Buenos Aires</option>
+								<option value="2">Chubut</option>
+								<option value="3">Mendoza</option>
+								<option value="4">Antioquia</option>
+								<option value="5" selected>Bolívar</option>
+								<option value="6">Bahia</option>
+								<option value="7">Goias</option>
+							</select>
+							</td>
+   						<%
+	   						break;
+	   					case "6":
+	   						%>
+	   						<td>
+	   						<select name="Provincia">
+								<option value="1">Buenos Aires</option>
+								<option value="2">Chubut</option>
+								<option value="3">Mendoza</option>
+								<option value="4">Antioquia</option>
+								<option value="5">Bolívar</option>
+								<option value="6" selected>Bahia</option>
+								<option value="7">Goias</option>
+							</select>
+							</td>
+   						<%
+	   						break;
+	   					case "7":
+	   						%>
+	   						<td>
+	   						<select name="Provincia">
+								<option value="1">Buenos Aires</option>
+								<option value="2">Chubut</option>
+								<option value="3">Mendoza</option>
+								<option value="4">Antioquia</option>
+								<option value="5">Bolívar</option>
+								<option value="6">Bahia</option>
+								<option value="7" selected>Goias</option>
+							</select>
+							</td>
+   						<%
+	   						break;
+   					}
+   				%>
+   				<%
+   				switch(med.getLocalidad_m()){
+					case "1":
+						%>
+						<td>
+   						<select name="Localidad">
+							<option value="1" selected>Localidad 1 Arg</option>
+							<option value="2">Localidad 2 Arg</option>
+							<option value="3">Localidad 3 Arg</option>
+							<option value="4">Localidad 1 Col</option>
+							<option value="5">Localidad 2 Col</option>
+							<option value="6">Localidad 1 Bra</option>
+							<option value="7">Localidad 2 Bra</option>
+						</select>
+						</td>
+						<%
+						break;
+					case "2":
+						%>
+						<td>
+   						<select name="Localidad">
+							<option value="1">Localidad 1 Arg</option>
+							<option value="2" selected>Localidad 2 Arg</option>
+							<option value="3">Localidad 3 Arg</option>
+							<option value="4">Localidad 1 Col</option>
+							<option value="5">Localidad 2 Col</option>
+							<option value="6">Localidad 1 Bra</option>
+							<option value="7">Localidad 2 Bra</option>
+						</select>
+						</td>
+						<%
+						break;
+					case "3":
+						%>
+						<td>
+   						<select name="Localidad">
+							<option value="1">Localidad 1 Arg</option>
+							<option value="2">Localidad 2 Arg</option>
+							<option value="3" selected>Localidad 3 Arg</option>
+							<option value="4">Localidad 1 Col</option>
+							<option value="5">Localidad 2 Col</option>
+							<option value="6">Localidad 1 Bra</option>
+							<option value="7">Localidad 2 Bra</option>
+						</select>
+						</td>
+						<%
+						break;
+					case "4":
+						%>
+						<td>
+   						<select name="Localidad">
+							<option value="1">Localidad 1 Arg</option>
+							<option value="2">Localidad 2 Arg</option>
+							<option value="3">Localidad 3 Arg</option>
+							<option value="4" selected>Localidad 1 Col</option>
+							<option value="5">Localidad 2 Col</option>
+							<option value="6">Localidad 1 Bra</option>
+							<option value="7">Localidad 2 Bra</option>
+						</select>
+						</td>
+						<%
+						break;
+					case "5":
+						%>
+						<td>
+   						<select name="Localidad">
+							<option value="1">Localidad 1 Arg</option>
+							<option value="2">Localidad 2 Arg</option>
+							<option value="3">Localidad 3 Arg</option>
+							<option value="4">Localidad 1 Col</option>
+							<option value="5" selected>Localidad 2 Col</option>
+							<option value="6">Localidad 1 Bra</option>
+							<option value="7">Localidad 2 Bra</option>
+						</select>
+						</td>
+						<%
+						break;
+					case "6":
+						%>
+						<td>
+   						<select name="Localidad">
+							<option value="1">Localidad 1 Arg</option>
+							<option value="2">Localidad 2 Arg</option>
+							<option value="3">Localidad 3 Arg</option>
+							<option value="4">Localidad 1 Col</option>
+							<option value="5">Localidad 2 Col</option>
+							<option value="6" selected>Localidad 1 Bra</option>
+							<option value="7">Localidad 2 Bra</option>
+						</select>
+						</td>
+						<%
+						break;
+					case "7":
+						%>
+						<td>
+   						<select name="Localidad">
+							<option value="1">Localidad 1 Arg</option>
+							<option value="2">Localidad 2 Arg</option>
+							<option value="3">Localidad 3 Arg</option>
+							<option value="4">Localidad 1 Col</option>
+							<option value="5">Localidad 2 Col</option>
+							<option value="6">Localidad 1 Bra</option>
+							<option value="7" selected>Localidad 2 Bra</option>
+						</select>
+						</td>
+						<%
+						break;
+				}
+   				%>
    				<td><input name="Direccion" value="<%=med.getDireccion_m() %>" /></td>
    				<td><input name="Mail" value="<%=med.getCorreoElectronico_m() %>" /></td>
    				<td><input name="Telefono" value="<%=med.getTelefono_m()%>" /></td>
@@ -258,14 +597,14 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
    					}
    				%>
    				<td><input type="submit" name="BtnModificar" value="Modificar"/></td>
-   		  	</form>
-   		</tr>																																																																																																																
+   		  	</form>	
+   		</tr>
+   																																																																																																																	
    	<% } 																																																																																																		
        }
        %>
     </tbody>
 </table>
-
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>

@@ -14,7 +14,7 @@ import entidad.Turnos;
 import entidad.Usuario;
 
 public class DaoMedicoImpl implements DaoMedico{
-	private static final String traerTodosLosTurnos = "SELECT * FROM turno";
+	private static final String traerTodosLosTurnos = "select t.*, Especialidad_Medico from turno as t inner join medico as m  on m.DNI_Medico = DNI_Medico_Turno";
 	private static final String traerPacientePorDNI = "SELECT * FROM paciente where DNI_Paciente=?";
 	private static final String traerTodosLosMedicos = "SELECT * FROM medico";
 	private static final String FiltrarMedicosxNombre = "SELECT * FROM medico where Nombre_Medico like '%";
@@ -50,7 +50,7 @@ public class DaoMedicoImpl implements DaoMedico{
 
 	@Override
 	public ArrayList<Turnos> DevolverResultSet(ResultSet rs, ArrayList<Turnos> ls) throws SQLException{
-		while(rs.next())
+		/*while(rs.next())
 		{
 			Turnos t = new Turnos();
 			
@@ -67,7 +67,7 @@ public class DaoMedicoImpl implements DaoMedico{
 			
 			ls.add(t);
 			
-		}
+		}*/
 		return ls;
 	}
 	
