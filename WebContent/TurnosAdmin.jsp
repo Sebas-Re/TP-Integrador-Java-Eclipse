@@ -127,7 +127,12 @@ ArrayList<Turnos> ListaTurnos = new ArrayList<Turnos>();
 		<form method="post" action="ServletTurnos">
 				<td><input readonly="" name="Cod_Turno" value="<%=tur.getCod_Turno() %>"></td>	
 				<td><%=tur.getMedico_Nombre() %></td>
-				<td><%=tur.getDNI_Paciente_Turno() %><input type="hidden" name="DNI_Paciente" value="<%=tur.getDNI_Paciente_Turno()%>" /></td> 
+				<%if(tur.getEstado_Turno().equals("LIBRE")){ %>
+				<td><input type="text" name="DNI_Paciente" value="<%=tur.getDNI_Paciente_Turno()%>" /></td>
+				<%}
+				else{%>
+				<td><%=tur.getDNI_Paciente_Turno() %><input type="hidden" name="DNI_Paciente" value="<%=tur.getDNI_Paciente_Turno()%>" /></td>
+				<%}%>
 				<td><%=tur.getNombre_Paciente() %></td>
 				<td><%=tur.getSexo_Paciente() %></td>
 				<td><%=tur.getDireccion_Paciente()%></td>

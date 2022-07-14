@@ -163,6 +163,7 @@ public class ServletTurnos extends HttpServlet {
 			Usuario us = new Usuario();
 			HttpSession session = request.getSession();
 			
+			t.setDNI_Paciente_Turno(request.getParameter("DNI_Paciente"));
 			t.setObservacines(request.getParameter("Observaciones"));
 			t.setEstado_Turno(request.getParameter("Estado"));
 			t.setCod_Turno(Integer.valueOf(request.getParameter("Cod_Turno")));
@@ -190,6 +191,7 @@ public class ServletTurnos extends HttpServlet {
 			NegocioTurnosImpl neg = new NegocioTurnosImpl();
 			Turnos t = new Turnos();
 			
+			t.setDNI_Paciente_Turno(request.getParameter("DNI_Paciente"));
 			t.setObservacines(request.getParameter("Observaciones"));
 			t.setEstado_Turno(request.getParameter("Estado"));
 			t.setCod_Turno(Integer.valueOf(request.getParameter("Cod_Turno")));

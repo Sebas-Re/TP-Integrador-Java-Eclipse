@@ -27,12 +27,14 @@ public class DaoTurnosImpl {
 			"inner join medico as m on m.DNI_Medico = DNI_Medico_Turno \r\n" + 
 			"inner join paciente as p on p.DNI_Paciente = DNI_Paciente_Turno";
 	private static final String traerDNIMedico= "select DNI_Medico from medico where Cod_Usuario_Medico=?";
-	private static final String modificarTurno = "UPDATE turno set Observacion = ?,Estado_Turno= ? WHERE Cod_Turno= ?";
+	private static final String modificarTurno = "UPDATE turno set DNI_Paciente_Turno=?,Observacion = ?,Estado_Turno= ? WHERE Cod_Turno= ?";
 	private static final String NombreMedicos = "select concat_ws(' ',Nombre_Medico,Apellido_Medico) as nombre from medico";
 	private static final String traerDiaTurno="select Dia_Turno from turno group by Dia_Turno";
 	private static final String traerEspecialidades = "select Especialidad_Medico from medico";
 	private static final String codigohorario = "select Cod_Horario_Medico from medico where DNI_Medico =?";
 	private static final String agregarturno="INSERT INTO `bdclinica`.`turno` (`Cod_Horario_Turno`,`DNI_Medico_Turno`,`DNI_Paciente_Turno`,`Fecha_Turno`,`Dia_Turno`,`Inicio_Turno`,`Fin_Turno`,`Estado_Turno`) VALUES(?,?,?,?,?,?,?,?)";
+	
+	
 	Conexion Conexion = new Conexion();
 	
 	public ArrayList<String> listarEspecialidad() {
@@ -287,9 +289,10 @@ public class DaoTurnosImpl {
 		try
 		{
 			statement = conexion.prepareStatement(modificarTurno);
-			statement.setString(1, turno.getObservacines());
-			statement.setString(2, turno.getEstado_Turno());
-			statement.setInt(3, turno.getCod_Turno());
+			statement.setString(1, turno.getDNI_Paciente_Turno());
+			statement.setString(2, turno.getObservacines());
+			statement.setString(3, turno.getEstado_Turno());
+			statement.setInt(4, turno.getCod_Turno());
 			
 			if(statement.executeUpdate() > 0)
 			{
