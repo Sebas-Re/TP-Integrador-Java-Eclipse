@@ -46,7 +46,7 @@ String MensajeBienvenida = "Bienvenido "+UsuarioLogeado.getNombreUsuario();
 	  <li class="nav__li"><%if(UsuarioLogeado.getTipoUsuario() == 1){ %><a class="nav__li-a" href="ServletReportes?MostrarReportes=1">Home</a><%} %></li>
 	  <li class="nav__li"><a class="nav__li-a" href="ServletMedicos?ListarMedicos=1">Medicos</a></li>
 	  <li class="nav__li"><a class="nav__li-a" href="ServeletPaciente?ListarPacientes=1">Pacientes</a></li>
-	  <li class="nav__li"><a class="nav__li-a" href="ServletTurnos?ListaTurnos=1">ListarTurnos</a></li>
+	  <li class="nav__li"><a class="nav__li-a" href="ServletTurnos?ListaTurnos=1">Listar Turnos</a></li>
 	   <li class="nav__li"><%if(UsuarioLogeado.getTipoUsuario() == 1){ %><a class="nav__li-a" href="Reportes.jsp">Reportes</a><%} %></li>
 	 <li class="nav__Usuario"><%=MensajeBienvenida%></li>
 	 
