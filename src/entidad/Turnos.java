@@ -4,16 +4,82 @@ public class Turnos {
 	
 	private int Cod_Turno;
 	private int Cod_Horario_Turno;
+	private String Medico_Nombre;
 	private Pacientes DatosPaciente;
 	private Medicos DatosMedico;
-	//private String DNI_Paciente_Turno;
-	//private String DNI_Medico_Turno;
+	private String DNI_Medico_Turno;
 	private String Dia_Turno;
 	private String Fecha_Turno;
 	private String Inicio_Turno;
 	private String Fin_Turno;
 	private String Especialidad_Turno;
-	private String Estado_Turno;	
+	private String Observacines;
+	private String Estado_Turno;
+	
+	//datos del paciente
+	private String DNI_Paciente_Turno;
+	private String Nombre_Paciente;
+	private String Direccion_Paciente;
+	private String Telefono_Paciente;
+	private String Sexo_Paciente;
+	private String Correo_Paciente;
+	private String Nac_Paciente;
+	
+	public String getNombre_Paciente() {
+		return Nombre_Paciente;
+	}
+
+	public void setNombre_Paciente(String nombre_Paciente) {
+		Nombre_Paciente = nombre_Paciente;
+	}
+
+	public String getDireccion_Paciente() {
+		return Direccion_Paciente;
+	}
+
+	public void setDireccion_Paciente(String direccion_Paciente) {
+		Direccion_Paciente = direccion_Paciente;
+	}
+
+	public String getTelefono_Paciente() {
+		return Telefono_Paciente;
+	}
+
+	public void setTelefono_Paciente(String telefono_Paciente) {
+		Telefono_Paciente = telefono_Paciente;
+	}
+
+	public String getSexo_Paciente() {
+		return Sexo_Paciente;
+	}
+
+	public void setSexo_Paciente(String sexo_Paciente) {
+		Sexo_Paciente = sexo_Paciente;
+	}
+
+	public String getCorreo_Paciente() {
+		return Correo_Paciente;
+	}
+
+	public void setCorreo_Paciente(String correo_Paciente) {
+		Correo_Paciente = correo_Paciente;
+	}
+
+	public String getNac_Paciente() {
+		return Nac_Paciente;
+	}
+
+	public void setNac_Paciente(String nac_Paciente) {
+		Nac_Paciente = nac_Paciente;
+	}
+	
+	public String getObservacines() {
+		return Observacines;
+	}
+
+	public void setObservacines(String observacines) {
+		Observacines = observacines;
+	}
 	
 	public Turnos() {
 		this.DatosPaciente = new Pacientes();
@@ -79,6 +145,14 @@ public class Turnos {
 	}
 	public void setCod_Horario_Turno(int cod_Horario_Turno) {
 		Cod_Horario_Turno = cod_Horario_Turno;
+	}
+	
+	public String getMedico_Nombre() {
+		return Medico_Nombre;
+	}
+
+	public void setMedico_Nombre(String medico_Nombre) {
+		Medico_Nombre = medico_Nombre;
 	}
 	
 }

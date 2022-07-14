@@ -6,8 +6,19 @@ public class Usuario
 	private int tipoUsuario;
 	private String nombreUsuario;
 	private String contraseñaUsuario;
+	private static String dni_Usuario;
 	
 	
+	public static String getDni_Usuario() {
+		return dni_Usuario;
+	}
+
+
+	public static void setDni_Usuario(String dni_Usuario) {
+		Usuario.dni_Usuario = dni_Usuario;
+	}
+
+
 	public Usuario() {
 		this.nombreUsuario = null;
 	}

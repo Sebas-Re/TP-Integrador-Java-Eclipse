@@ -11,17 +11,22 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Turnos Medicos</title>
 
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+	
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" charset="utf8"
+	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+  
 <style type="text/css">
 	<jsp:include page="css\StyleSheet.css"></jsp:include>
 </style>
 
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" />
-  
+	
 </head>
 <body>
-<form method="get" action="ServletMedicos">
+<form method="post" action="ServletTurnos">
 
 <%
 try{
@@ -34,11 +39,8 @@ String MensajeBienvenida = "Bienvenido "+UsuarioLogeado.getNombreUsuario();
 
 	<ul class="" id="Navegacion">
 	<li class="nav__Usuario"><a class="nav__li-a" href="ServletLogIn?CerrarSesion=1">Cerrar Sesion</a></li>
-	  <li class="nav__li"><%if(UsuarioLogeado.getTipoUsuario() == 1){ %><a class="nav__li-a" href="ServletReportes?MostrarReportes=1">Home</a><%} %></li>
-	  <li class="nav__li"><a class="nav__li-a" href="ServletMedicos?ListarMedicos=1">Medicos</a></li>
-	  <li class="nav__li"><a class="nav__li-a" href="ServeletPaciente?ListarPacientes=1">Pacientes</a></li>
-	  <li class="nav__li"><a class="nav__li-a" href="Turnos.jsp">Turnos</a></li>
-	  <li class="nav__li"><a class="nav__li-a" href="TurnosMedico.jsp">Turnos Medicos</a></li>
+	  <li class="nav__li"><%if(UsuarioLogeado.getTipoUsuario() == 1){ %><a class="nav__li-a" href="ServletMedicos?UserMedico=1">Home</a><%} %></li>
+	  <li class="nav__li"><a class="nav__li-a" href="ServletTurnos?TurnosxMedico=1">Turnos Medicos</a></li>
 	   <li class="nav__li"><%if(UsuarioLogeado.getTipoUsuario() == 1){ %><a class="nav__li-a" href="Reportes.jsp">Reportes</a><%} %></li>
 	 <li class="nav__Usuario"><%=MensajeBienvenida%></li>
 	 
@@ -57,49 +59,137 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
 
 <%! 
 Turnos turnos = new Turnos();
-MedicoNegocioImpl neg = new MedicoNegocioImpl();
 ArrayList<Turnos> ListaTurnos = new ArrayList<Turnos>();
 %>
 
 <%	
-	ListaTurnos = neg.listarTurnos();
-	if(request.getAttribute("ListaT")!=null)
+	if(request.getAttribute("ListaTM")!=null)
 	{	
-		ListaTurnos =  (ArrayList<Turnos>)request.getAttribute("ListaT");
+		ListaTurnos =  (ArrayList<Turnos>)request.getAttribute("ListaTM");
 	} %>
 	
+
 	
 	
-	
-	
-	
-<table border="1" width="100%">
+<table	 id="ListaTurno" width="100%" class="table table-hover table-bordered">
+	<thead>
 	<tr>
-		<th width="25px">Codigo del truno</th>
+		<th width="25px">codigo turno</th>
+		<th width="25px">Nombre del medico</th>
+		<th width="25px" style="width: 76px; ">DNI del paciente</th>
+		<th width="25px">Nombre del paciente</th>
+		<th width="25px">Sexo del paciente</th>
+		<th width="25px">Direccion del paciente</th>
+		<th width="25px">Fecha de nacimiento del paciente</th>
+		<th width="25px">Telefono del paciente</th>
+		<th width="25px">Correo del paciente</th>
 		<th width="25px" style="width: 67px; ">Dia del turno</th>
-		<th width="25px" style="width: 67px; ">Fecha del turno</th>
 		<th width="25px">Horario</th>
 		<th width="25px">Especialidad</th>
-		<th width="25px" style="width: 76px; ">DNI del paciente</th>
-		<th width="25px">Informacion del paciente</th>
+		<th width="25px">Observaciones</th>
+		<th width="25px">Estado del turno</th>
+		<th width="25px">Modificar</th>
 	</tr>
+	</thead>
 	<%if(ListaTurnos!=null)
-		for(Turnos tur: ListaTurnos) 
-		{ %>
+		for(Turnos tur: ListaTurnos){
+			String Estado = "null";
+   			switch(tur.getEstado_Turno())
+   			{
+   			case "LIBRE": Estado = "LIBRE";
+   				break;
+   			case "OCUPADO": Estado = "OCUPADO";
+   				break;
+   			case "AUSENTE": Estado = "AUSENTE";
+   				break;
+   			case "PRESENTE": Estado = "PRESENTE";
+   				break;
+   			} 
+		%>
 	<tr> 	 
-				<td><%=tur.getCod_Turno() %></td> 
-				<td><%=tur.getDia_Turno() %></td>
-				<td><%=tur.getFecha_Turno() %></td>
-				<td><%=tur.getInicio_Turno() %> a <%=tur.getFin_Turno() %></td>
-				<td><%=tur.getEspecialidad_Turno() %></td>
+		<form method="post" action="ServletTurnos">
+				<td><input readonly="" name="Cod_Turno" value="<%=tur.getCod_Turno() %>"></td>	
+				<td><%=tur.getMedico_Nombre() %></td>
 				<td><%=tur.getDNI_Paciente_Turno() %><input type="hidden" name="DNI_Paciente" value="<%=tur.getDNI_Paciente_Turno()%>" /></td> 
-				<td> <input type="submit" name="btnInformacion" value="Informacion"> </td>
+				<td><%=tur.getNombre_Paciente() %></td>
+				<td><%=tur.getSexo_Paciente() %></td>
+				<td><%=tur.getDireccion_Paciente()%></td>
+				<td><%=tur.getNac_Paciente() %></td>
+				<td><%=tur.getTelefono_Paciente() %></td>
+				<td><%=tur.getCorreo_Paciente()%></td>
+				<td><%=tur.getDia_Turno() %></td>
+				<td><%=tur.getInicio_Turno() %></td>
+				<td><%=tur.getEspecialidad_Turno() %></td>
+				<td><input type="text" name="Observaciones" value="<%=tur.getObservacines()%>" /></td> 
+				<%
+   					if(Estado == "AUSENTE")
+   					{
+   				%>
+   					<td>
+   						<select name="Estado">
+   						  <option value="AUSENTE" selected>Ausente</option>
+   						  <option value="PRESENTE">Presente</option>
+   						</select>
+   					</td>
+   				<%
+   				}
+   				else if(Estado == "PRESENTE")
+   					{
+   				%>
+   					<td>
+   					<select name="Estado">
+   						  <option value="PRESENTE" selected>Presente</option>
+   						  <option value="AUSENTE">Ausente</option>
+   						</select>
+   					</td>
+   				<%
+   					}
+   				else{
+   				%>
+   				<td>
+   					<select name="Estado">
+   						  <option value="<%=tur.getEstado_Turno() %>" selected><%=tur.getEstado_Turno() %></option>
+   						  <option value="PRESENTE">Presente</option>
+   						  <option value="AUSENTE">Ausente</option>
+   					</select>
+   				</td>
+   				<%
+   					}
+   				%>
+				<td><input type="submit" name="btnModificar" value="Modificar"></td>
 				
-			
+				
+		</form>
 		</tr>
 			
 		<% } %>
 </table>
 </form>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+
+<script type="text/javascript">
+
+    //IDIOMA ESPAÑOL DEL DATATABLE 
+
+    $(document).ready(function() {
+
+      $('#ListaTurno').DataTable({
+
+        "language": {
+
+          "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+
+        }
+
+      });
+
+    });
+
+  </script>
 </body>
 </html>
+

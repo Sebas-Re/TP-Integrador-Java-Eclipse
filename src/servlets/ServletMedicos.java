@@ -56,7 +56,8 @@ public class ServletMedicos extends HttpServlet {
 			}
 					
 		}
-		
+    	
+    	
 		if(request.getParameter("ListarMedicos")!=null) {
 			
 			try {
@@ -72,9 +73,6 @@ public class ServletMedicos extends HttpServlet {
 			}
 			
 		}
-		
-
-		
 		
 			if(request.getParameter("btnFiltrar")!=null) {
 				Medicos M = new Medicos();
@@ -136,6 +134,18 @@ public class ServletMedicos extends HttpServlet {
 				request.setAttribute("ModificacionEsM", filas);
 				RequestDispatcher rd = request.getRequestDispatcher("Medicos.jsp");
 				rd.forward(request, response);
+			}
+			
+			if(request.getParameter("UserMedico")!=null) {
+				
+				try{
+			
+				RequestDispatcher rd = request.getRequestDispatcher("UsuarioMedico.jsp");
+				rd.forward(request, response);
+				}
+				catch (Exception e) {
+					
+				}
 			}
 			
 		}
