@@ -174,20 +174,7 @@ public class ServletMedicos extends HttpServlet {
 		
 		med.setDni_m(request.getParameter("txtDni"));
 		med.setNombre_m(request.getParameter("txtNombre"));
-		
-		//Aquellos comentados dan nulo
-		
-	//	med.setApellido_m(request.getParameter("txtApellido"));
-	//	med.setSexo_m(request.getParameter("ddlSexo"));
-		
-		try {
-			Date prueba = (Date) new SimpleDateFormat("yyyy/MM/dd").parse(request.getParameter("FechaNac"));
-			
-		} catch (ParseException e) {
-			// 
-			//Por algun motivo desconocido dejando esto funciona
-			e.printStackTrace();
-		}
+		med.setApellido_m(request.getParameter("txtApellido"));
 		med.setFechaNac_m(request.getParameter("FechaNac"));
 		med.setNacionalidad(request.getParameter("Nacionalidad"));
 		med.setDireccion_m(request.getParameter("Direccion"));

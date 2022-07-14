@@ -86,22 +86,6 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 %>	
 	
 	<%

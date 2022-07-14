@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entidad.Medicos;
+import entidad.Pacientes;
 import entidad.Reportes;
 import negocioImpl.ReportesNegocioImpl;
 
@@ -64,8 +67,45 @@ public class ServletReportes extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+
+		if(request.getParameter("btnFiltrar") != null)
+		{
+			String FiltrarTipoPersona = request.getParameter("FiltrarTipoPersona");
+			String FiltrarTipoEstado = request.getParameter("FiltrarEstado");
+			String FechaInicial = request.getParameter("FechaInicial");
+			String FechaFinal = request.getParameter("FechaFinal");
+			ReportesNegocioImpl negRep = new ReportesNegocioImpl();
+			
+			/*
+			//filtrarTipoPersona, Valores:
+			1 - Medico
+			2 - Paciente
+			
+			filtrarTipoEstado, valores:
+			0 - Todos
+			1 - Baja
+			2 - Alta
+			*/
+			
+			switch (FiltrarTipoPersona) {
+			case "1":
+				ArrayList<Medicos> lsMedicos = negRep.FiltrarReporteMedicos(FiltrarTipoEstado, FechaInicial, FechaFinal);
+				request.setAttribute("ListaMedicos", lsMedicos);
+				request.getRequestDispatcher("/Reportes.jsp").forward(request, response);
+				break;
+
+			case "2":
+				ArrayList<Pacientes> lsPacientes = negRep.FiltrarReportePacientes(FiltrarTipoEstado, FechaInicial, FechaFinal);
+				request.setAttribute("ListaPacientes", lsPacientes);
+				request.getRequestDispatcher("/Reportes.jsp").forward(request, response);
+				break;
+	
+			
+			
+			
+		}
 	}
 
+}
 }

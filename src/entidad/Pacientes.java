@@ -13,6 +13,7 @@ public class Pacientes {
 	private String Direccion;
 	private Email Correo;
 	private String Telefono; 
+	private String TurnosActivos;
 	private int Estado;
 	
 	public Pacientes()
@@ -128,6 +129,12 @@ public class Pacientes {
 				+ ", FechaNacimiento=" + FechaNacimiento + ", Nacionalidad=" + Nacionalidad + ", Provincia=" + Provincia
 				+ ", Localidad=" + Localidad + ", Direccion=" + Direccion + ", Correo=" + Correo + ", Telefono="
 				+ Telefono + ", Estado=" + Estado + "]";
+	}
+	public String getTurnosActivos() {
+		return TurnosActivos;
+	}
+	public void setTurnosActivos(String turnosActivos) {
+		TurnosActivos = turnosActivos;
 	}
 	
 }
