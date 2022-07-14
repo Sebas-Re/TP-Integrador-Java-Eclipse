@@ -1,3 +1,5 @@
+<%@page import="entidad.Medicos"%>
+<%@page import="entidad.Pacientes"%>
 <%@page import="com.sun.xml.internal.bind.v2.runtime.reflect.ListIterator"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -44,8 +46,7 @@ String MensajeBienvenida = "Bienvenido "+UsuarioLogeado.getNombreUsuario();
 	  <li class="nav__li"><%if(UsuarioLogeado.getTipoUsuario() == 1){ %><a class="nav__li-a" href="ServletReportes?MostrarReportes=1">Home</a><%} %></li>
 	  <li class="nav__li"><a class="nav__li-a" href="ServletMedicos?ListarMedicos=1">Medicos</a></li>
 	  <li class="nav__li"><a class="nav__li-a" href="ServeletPaciente?ListarPacientes=1">Pacientes</a></li>
-	  <li class="nav__li"><a class="nav__li-a" href="Turnos.jsp">Turnos</a></li>
-	  <li class="nav__li"><a class="nav__li-a" href="TurnosMedico.jsp">Turnos Medicos</a></li>
+	  <li class="nav__li"><a class="nav__li-a" href="ServletTurnos?ListaTurnos=1">ListarTurnos</a></li>
 	   <li class="nav__li"><%if(UsuarioLogeado.getTipoUsuario() == 1){ %><a class="nav__li-a" href="Reportes.jsp">Reportes</a><%} %></li>
 	 <li class="nav__Usuario"><%=MensajeBienvenida%></li>
 	 
@@ -60,83 +61,82 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
 %>
 
 
-<form method="get" action="ServletTurnos?AgregarInfo=1">
+	<form method="post" action="ServletTurnos">
 			<table>
-			<tr>
-				<td>Especialidad</td>
-				<td>
+			
+		<tr>
+				<td>DNI del <br>Paciente</td>
 				
-					<select name="SelectEspecialidad" onChange="ir();">
-						<p align="center">   
-						<p align="left">
-						<%!ArrayList<String> ListaEspecialidad; %>
+						<%!ArrayList<Pacientes> listarPacientes=null; %>
 						<% 
-						if( request.getAttribute("ListaE")!=null){
-						ListaEspecialidad = (ArrayList<String>)request.getAttribute("ListaE");
+						if( request.getAttribute("DNIP")!=null){
 						
-						  for(int i=0; i<ListaEspecialidad.size(); i++)
-						  	{ 
-						       String fnombre = ListaEspecialidad.get(i); 
+						listarPacientes = (ArrayList<Pacientes>)request.getAttribute("DNIP");
+						
+						   for(Pacientes pcte : listarPacientes) 
+   		{
+						       
 						%> 
-						    <option value="<%=fnombre%>"><%=fnombre%></option> 
+						    <td><input type="hidden" name="dni_Paciente" value="<%=pcte.getDNI() %>"><%=pcte.getDNI() %></td>
 						<%
 							}
 						}
 						
 						%>
-					</select>
 					
-				</td>
+				
 			</tr>
 			<tr>
+			<form method="post" action="ServletTurnos">
 				<td>Medico</td>
 				<td>
-					<select name="NombresMedicos">
-					<%!ArrayList<String> listaMedicos; %>
+					<select name="Medico">
+					<%!ArrayList<Medicos> listaMedicos; %>
 						<% 
 						if( request.getAttribute("ListaM")!=null){
-						listaMedicos = (ArrayList<String>)request.getAttribute("ListaM");
+						listaMedicos = (ArrayList<Medicos>)request.getAttribute("ListaM");
 						
-						  for(int i=0; i<listaMedicos.size(); i++)
-						  	{ 
-						       String fnombre = listaMedicos.get(i); 
+						  for(Medicos med : listaMedicos) 
+   							{
+   							if(med.getEstado()==1){
+						       String fdatos = med.getDni_m()+" - "+med.getNombre_m()+" "+med.getApellido_m()+" - "+med.getEspecialidad()+" - "+med.getDia(); 
 						%> 
-						    <option value="<%=fnombre%>"><%=fnombre%></option> 
+						    <option value="<%=fdatos%>"><%=fdatos%></option> 
 						<%
+								}
 							}
 						}
 						
 						%>
 					</select>
 				</td>
+				
 			</tr>
 			<tr>
-				<td>dia</td>
+				<td>Fecha Turno</td>
 				<td>
-					<select name="Dias">
+					<input type="date" name="FechaTur" placeholder="Fecha Nac (a-m-d)" required/></p>
 				</td>
-			</tr>
-			<tr>
-				<td>Mes</td>
-				<td>
-					<select name="NombresMedicos">
-			</td>
-			<tr>
-				<td>Medico</td>
-				<td>
-					<select name="NombresMedicos">
-				</td>
-			</tr>
 			</tr>
 				<tr>
-				<td>Horario</td>
+				<td>Horario Inicio</td>
 				<td>
-					<select name="NombresMedicos">
+					<input type="time" name="Hora_Inicio">
 				</td>
 			</tr>
-			
+			<tr>
+				<td>Horario Fin</td>
+				<td>
+					<input type="time" name="Hora_Fin">
+				</td>
+			</tr>
 		</table>
+	
+		<br>
+				<td><input type="submit" name="btnAgregarTurno" value="Agregar Turno"></td>	
+				</form>
 		</form>
 		</div>
+		
 </body>
 </html>

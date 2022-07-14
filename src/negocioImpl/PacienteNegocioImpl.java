@@ -28,6 +28,9 @@ public class PacienteNegocioImpl implements PacienteNegocio {
 	public ArrayList<Pacientes> listarPaciente() {
 		return PacienteDao.listarPaciente();
 	}
+	public ArrayList<Pacientes> listarPacientexDNI(Pacientes p) {
+		return PacienteDao.listarPacientexDNI(p);
+	}
 	
 	@Override
 	public ArrayList<Pacientes> FiltrarNombreEstado(Pacientes p) {
