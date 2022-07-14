@@ -2,11 +2,8 @@ package negocioImpl;
 
 import java.util.ArrayList;
 
-import com.mysql.fabric.xmlrpc.base.Array;
-
 import daolmpl.DaoTurnosImpl;
 import daolmpl.DaoUsuarioImpl;
-import entidad.Pacientes;
 import entidad.Turnos;
 import entidad.Usuario;
 

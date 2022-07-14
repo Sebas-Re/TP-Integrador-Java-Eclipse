@@ -46,34 +46,7 @@ public class ServeletPaciente extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Boolean filas = false;
-		
-		if(request.getParameter("Param=1")!=null) {
-			try {
-			Pais pais = new Pais();
-			NacionalidadNegocioImpl negNac = new NacionalidadNegocioImpl();
-			
-			ArrayList<Pais> listaPaises=null;
-			listaPaises = negNac.traerPaises();
-			
-			ArrayList<Provincia> listaProvincias=null;
-			listaProvincias = negNac.traerProvincias();
-			
-			ArrayList<Localidad> listaLocalidades=null;
-			listaLocalidades = negNac.traerLocalidades();
-			
-			request.setAttribute("listaPaises", listaPaises);
-			request.setAttribute("listaProvincias", listaProvincias);
-			request.setAttribute("listaLocalidades", listaLocalidades);
-			
-			
-			RequestDispatcher rd = request.getRequestDispatcher("Pacientes.jsp");
-			rd.forward(request, response);	
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-					
-		}
+
 		
 		if(request.getParameter("ListarPacientes")!=null) {
 
@@ -93,9 +66,6 @@ public class ServeletPaciente extends HttpServlet {
 				request.setAttribute("listaProvincias", listaProvincias);
 				request.setAttribute("listaLocalidades", listaLocalidades);
 				
-				
-				
-				Pacientes p = new Pacientes();
 				PacienteNegocioImpl neg = new PacienteNegocioImpl();
 				
 				ArrayList<Pacientes> lista= neg.listarPaciente(); 
