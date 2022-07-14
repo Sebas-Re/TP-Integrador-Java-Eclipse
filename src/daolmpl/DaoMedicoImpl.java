@@ -20,8 +20,8 @@ public class DaoMedicoImpl implements DaoMedico{
 	private static final String FiltrarMedicosxNombre = "SELECT * FROM medico where Nombre_Medico like '%";
 	private static final String FiltrarMedicosXNombreEstado = "SELECT * FROM medico where Estado_Medico = ? and Nombre_Medico like '%";
 	private static final String FiltrarMedicosxEstado = "SELECT * FROM medico where Estado_Medico=?";
-	private static final String modificarMedico = "UPDATE paciente set Nombre_Paciente = ?, Apellido_Paciente = ?,Sexo_Paciente = ?,Fecha_Nacimiento_Paciente = ?,Nacionalidad_Paciente = ?,Provincia_Paciente = ?,Localidad_Paciente = ?,Direccion_Paciente = ?,Correo_Paciente = ?,Telefono_Paciente = ?,Estado_Paciente = ? WHERE DNI_Paciente = ?";
-	private static final String AgregarMedico = "INSERT INTO medico(Cod_Usuario_Medico,DNI_Medico,Nombre_Medico,Apellido_Medico,Sexo_Medico,Fecha_Nacimiento_Medico,Nacionalidad_Medico,Provincia_Medico,Localidad_Medico,Direccion_Medico,Correo_Medico,Telefono_Medico,Especialidad_Medico,Estado_Medico) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	private static final String modificarMedico = "UPDATE medico SET Nombre_Medico = ?,Apellido_Medico = ?,Sexo_Medico = ?,Fecha_Nacimiento_Medico = ?,Nacionalidad_Medico = ?,Provincia_Medico = ?,Localidad_Medico = ?,Direccion_Medico = ?,Correo_Medico = ?,Telefono_Medico = ?,Especialidad_Medico = ?,Cod_Horario_Medico = ?,Estado_Medico = ? WHERE DNI_Medico = ?";
+	private static final String AgregarMedico = "INSERT INTO medico(Nombre_Medico,Apellido_Medico,Sexo_Medico,Fecha_Nacimiento_Medico,Nacionalidad_Medico,Provincia_Medico,Localidad_Medico,Direccion_Medico,Correo_Medico,Telefono_Medico,Especialidad_Medico,Cod_Horario_Medico,Estado_Medico) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	
 	DaoUsuarioImpl daoUsuario = new DaoUsuarioImpl();
 	Conexion Conexion = new Conexion();
@@ -273,8 +273,10 @@ public class DaoMedicoImpl implements DaoMedico{
 			statement.setString(8, medico.getDireccion_m());
 			statement.setString(9, medico.getCorreoElectronico_m());
 			statement.setString(10, medico.getTelefono_m());
-			statement.setInt(11, medico.getEstado());
-			statement.setString(12, medico.getDni_m());
+			statement.setString(11, medico.getEspecialidad());
+			statement.setInt(12, medico.getCodHorarioMedico());
+			statement.setInt(13, medico.getEstado());
+			statement.setString(14, medico.getDni_m());
 			
 			if(statement.executeUpdate() > 0)
 			{

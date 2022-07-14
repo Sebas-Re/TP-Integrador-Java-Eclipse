@@ -12,11 +12,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Usuario Medico</title>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
 
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" />
+
 <style type="text/css"><jsp:include page="css\medicos.css"></jsp:include> </style>
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css"/>
@@ -162,6 +164,7 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
 		<input type="text" name="Direccion" placeholder="Dirección" required/></p>
 		<input type="email" name="Mail" placeholder="Correo Electronico" required/>
 		<input type="text" name="Telefono" placeholder="Teléfono" required/>
+		<input type="text" name="CodigoHorarioMed" placeholder="Cod horario med" required/>
 		<input type="text" name="Especialidad" placeholder="Especialidad" required/>
 		<input type="submit" name="BtnAgregar" value="Agregar" required/>
 		</div>
@@ -313,7 +316,6 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
    				%>
    				<td><input name="FechaDeNacimiento" value="<%=med.getFechaNac_m() %>" /></td>
    				<%
-   					nacmed = med.getNacionalidad();
    					switch(med.getNacionalidad())
    					{
 	   					case "1":

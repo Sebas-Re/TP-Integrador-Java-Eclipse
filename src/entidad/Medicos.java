@@ -2,7 +2,7 @@ package entidad;
 
 public class Medicos extends Usuario
 {
-	
+	private String CodUsuarioMedico;
 	private String dni_m;
 	private String nombre_m;
 	private String apellido_m;
@@ -17,6 +17,8 @@ public class Medicos extends Usuario
 	private String especialidad;
 	private String dia;
 	private String horarioAtencion;
+	private String codigoDeTurno;
+	private int CodHorarioMedico;
 	private String TurnosActivos;
 	private int Estado;
 
@@ -29,7 +31,7 @@ public class Medicos extends Usuario
 	
 	public Medicos(String dni_m, String nombre_m, String apellido_m, String sexo_m, String fechaNac_m, String Nacionalidad,
 			String direccion_m, String localidad_m, String provincia_m, String correoElectronico_m, String telefono_m,
-			String especialidad, String dia, String horarioAtencion, String TurnosActivos, int Estado) {
+			String especialidad, String dia, String horarioAtencion, String TurnosActivos,String cod, String CodUsuMed, int CodHorMed, int Estado) {
 		super();
 		this.dni_m = dni_m;
 		this.nombre_m = nombre_m;
@@ -45,7 +47,10 @@ public class Medicos extends Usuario
 		this.especialidad = especialidad;
 		this.dia = dia;
 		this.horarioAtencion = horarioAtencion;
+		this.codigoDeTurno = cod;
+		this.CodUsuarioMedico = CodUsuMed;
 		this.TurnosActivos = TurnosActivos;
+		this.CodHorarioMedico = CodHorMed;
 		this.setEstado(Estado);
 	}
 	
@@ -169,6 +174,42 @@ public class Medicos extends Usuario
 
 	public void setTurnosActivos(String turnosActivos) {
 		TurnosActivos = turnosActivos;
+	}
+
+
+
+	public String getCodigoDeTurno() {
+		return codigoDeTurno;
+	}
+
+
+
+	public void setCodigoDeTurno(String codigoDeTurno) {
+		this.codigoDeTurno = codigoDeTurno;
+	}
+
+
+
+	public String getCodUsuarioMedico() {
+		return CodUsuarioMedico;
+	}
+
+
+
+	public void setCodUsuarioMedico(String codUsuarioMedico) {
+		CodUsuarioMedico = codUsuarioMedico;
+	}
+
+
+
+	public int getCodHorarioMedico() {
+		return CodHorarioMedico;
+	}
+
+
+
+	public void setCodHorarioMedico(int codHorarioMedico) {
+		CodHorarioMedico = codHorarioMedico;
 	}
 
 	

@@ -142,7 +142,7 @@ public class ServletMedicos extends HttpServlet {
 				m.setCorreoElectronico_m(request.getParameter("Mail"));
 				m.setTelefono_m(request.getParameter("Telefono"));
 				m.setEspecialidad(request.getParameter("Especialidad"));
-				
+				m.setCodHorarioMedico(Integer.parseInt(request.getParameter("codHorarioMedico")));
 				m.setEstado(Integer.parseInt(request.getParameter("Estado")));
 
 				filas = neg.modificarMedico(m);
