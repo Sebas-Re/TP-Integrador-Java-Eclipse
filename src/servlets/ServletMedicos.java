@@ -93,6 +93,8 @@ public class ServletMedicos extends HttpServlet {
 			
 		}
 		
+		
+		
 			if(request.getParameter("btnFiltrar")!=null) {
 				Medicos M = new Medicos();
 				MedicoNegocioImpl neg = new MedicoNegocioImpl();
@@ -142,7 +144,8 @@ public class ServletMedicos extends HttpServlet {
 				m.setCorreoElectronico_m(request.getParameter("Mail"));
 				m.setTelefono_m(request.getParameter("Telefono"));
 				m.setEspecialidad(request.getParameter("Especialidad"));
-				m.setCodHorarioMedico(Integer.parseInt(request.getParameter("codHorarioMedico")));
+				
+				m.setCodHorarioMedico(Integer.parseInt(request.getParameter("CodHorarioMODIFICAR")));
 				m.setEstado(Integer.parseInt(request.getParameter("Estado")));
 
 				filas = neg.modificarMedico(m);
@@ -214,6 +217,7 @@ public class ServletMedicos extends HttpServlet {
 		med.setTelefono_m(request.getParameter("Telefono"));
 		med.setEspecialidad(request.getParameter("Especialidad"));
 		med.setSexo_m(request.getParameter("ddlSexo"));
+		med.setCodHorarioMedico(Integer.parseInt(request.getParameter("codHorarioMedico")));
 	//	med.setDia(request.getParameter("txtDia"));
 	//	med.setHorarioAtencion(request.getParameter("txtHorarioAtencion"));
 		med.setEstado(1);
@@ -222,10 +226,12 @@ public class ServletMedicos extends HttpServlet {
 		
 		Agregado = negMed.agregarMedico(Us, med); //Si devuelve 1, sólo uno de los dos se añadió. Si devuelve 2, todo se agregó correctamente.
 		}
-		
-		request.setAttribute("MedicoAgregado", Agregado);
-		RequestDispatcher rd = request.getRequestDispatcher("Medicos.jsp");
-		rd.forward(request, response);
+		if(Agregado == 2) {
+			response.sendRedirect(request.getContextPath() + "/ServletMedicos?" + "ListarMedicos=1&MedicoAgregado=true");
+		}
+		else {
+			response.sendRedirect(request.getContextPath() + "/ServletMedicos?" + "ListarMedicos=1&MedicoAgregado=false");
+		}
 		
 	}
 

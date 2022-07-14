@@ -83,8 +83,8 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
 	<div class="form-group">
 	
 	<p><input type="text" name="txtNombreUs" placeholder="NombreUs" required/>
-	 <input type="text" name="txtContra" placeholder="Contra" required/>
-	 <input type="text" name="txtContraConfirm" placeholder="Confirmar Contra" required/> </p>
+	 <input type="password" name="txtContra" placeholder="Contra" required/>
+	 <input type="password" name="txtContraConfirm" placeholder="Confirmar Contra" required/> </p>
 	<p>	<input type="text" name="txtDni" placeholder="Dni" required/>
 		<input type="text" name="txtNombre" placeholder="Nombre" required/>
 		<input type="text" name="txtApellido" placeholder="Apellido" required/> 
@@ -164,17 +164,15 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
 		<input type="text" name="Direccion" placeholder="Dirección" required/></p>
 		<input type="email" name="Mail" placeholder="Correo Electronico" required/>
 		<input type="text" name="Telefono" placeholder="Teléfono" required/>
-		<input type="text" name="CodigoHorarioMed" placeholder="Cod horario med" required/>
+		<input type="text" name="codHorarioMedico" placeholder="Cod horario med" required/>
 		<input type="text" name="Especialidad" placeholder="Especialidad" required/>
-		<input type="submit" name="BtnAgregar" value="Agregar" required/>
+		<input type="submit" name="BtnAgregar" value="Agregar"/> 
 		</div>
 	</form>
 	
-<%
 
 
-
-%>	
+	
 	
 	<%
     String agregadoEs = null;
@@ -242,6 +240,7 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
 			<th>Correo</th>
 			<th>Teléfono</th>
 			<th>Especialidad</th>
+			<th>Cod Horario<br> Turno</th>
 			<th>Estado</th>
 			<th>Modificar/Baja</th>
 		</tr>
@@ -575,6 +574,7 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
    				<td><input name="Mail" value="<%=med.getCorreoElectronico_m() %>" /></td>
    				<td><input name="Telefono" value="<%=med.getTelefono_m()%>" /></td>
    				<td><input name="Especialidad" value="<%=med.getEspecialidad()%>" /></td>
+   				<td><input name="CodHorarioMODIFICAR" value="<%=med.getCodHorarioMedico()%>" /></td>
    				<% 
    					if (med.getEstado()==1)
    					{

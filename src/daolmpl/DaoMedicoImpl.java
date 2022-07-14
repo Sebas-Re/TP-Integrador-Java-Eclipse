@@ -21,10 +21,33 @@ public class DaoMedicoImpl implements DaoMedico{
 	private static final String FiltrarMedicosXNombreEstado = "SELECT * FROM medico where Estado_Medico = ? and Nombre_Medico like '%";
 	private static final String FiltrarMedicosxEstado = "SELECT * FROM medico where Estado_Medico=?";
 	private static final String modificarMedico = "UPDATE medico SET Nombre_Medico = ?,Apellido_Medico = ?,Sexo_Medico = ?,Fecha_Nacimiento_Medico = ?,Nacionalidad_Medico = ?,Provincia_Medico = ?,Localidad_Medico = ?,Direccion_Medico = ?,Correo_Medico = ?,Telefono_Medico = ?,Especialidad_Medico = ?,Cod_Horario_Medico = ?,Estado_Medico = ? WHERE DNI_Medico = ?";
-	private static final String AgregarMedico = "INSERT INTO medico(Nombre_Medico,Apellido_Medico,Sexo_Medico,Fecha_Nacimiento_Medico,Nacionalidad_Medico,Provincia_Medico,Localidad_Medico,Direccion_Medico,Correo_Medico,Telefono_Medico,Especialidad_Medico,Cod_Horario_Medico,Estado_Medico) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	
+	private static final String AgregarMedico = "INSERT INTO medico(Cod_Usuario_Medico,DNI_Medico,Nombre_Medico,Apellido_Medico,Sexo_Medico,Fecha_Nacimiento_Medico,Nacionalidad_Medico,Provincia_Medico,Localidad_Medico,Direccion_Medico,Correo_Medico,Telefono_Medico,Especialidad_Medico,Cod_Horario_Medico,Estado_Medico) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	private static final String RetornarUltimoID = "select max(`Cod_Usuario`) AS `UltimoCodCargado` from `bdclinica`.`usuario`";
 	DaoUsuarioImpl daoUsuario = new DaoUsuarioImpl();
 	Conexion Conexion = new Conexion();
+	
+	public int RetornarUltimoID()
+	{
+		Connection conexion;
+		Statement st;
+		ResultSet rs;
+		try {
+			conexion = Conexion.getSQLConexion();
+			st = conexion.createStatement();
+			rs = st.executeQuery(RetornarUltimoID);
+			while(rs.next()) {
+				
+				return rs.getInt("UltimoCodCargado");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
+		return -1;
+	}
+	
+	
 	
 	@Override
 	public ArrayList<Turnos> listarTurnos() {
@@ -146,6 +169,7 @@ public class DaoMedicoImpl implements DaoMedico{
 				M.setDireccion_m(rs.getString("Direccion_Medico"));
 				M.setCorreoElectronico_m(rs.getString("Correo_Medico"));
 				M.setTelefono_m(rs.getString("Telefono_Medico"));
+				M.setCodHorarioMedico(rs.getInt("Cod_Horario_Medico"));
 				M.setEspecialidad(rs.getString("Especialidad_Medico"));
 				M.setEstado(rs.getInt("Estado_Medico"));
 				ls.add(M);
@@ -247,6 +271,7 @@ public class DaoMedicoImpl implements DaoMedico{
 			m.setDireccion_m(rs.getString("Direccion_Medico"));
 			m.setCorreoElectronico_m(rs.getString("Correo_Medico"));
 			m.setTelefono_m(rs.getString("Telefono_Medico"));
+			m.setCodHorarioMedico(rs.getInt("Cod_Horario_Medico"));
 			m.setEspecialidad(rs.getString("Especialidad_Medico"));
 			m.setEstado(rs.getInt("Estado_Medico"));
 			ls.add(m);
@@ -312,7 +337,7 @@ public class DaoMedicoImpl implements DaoMedico{
 			try
 			{
 				statement = conexion.prepareStatement(AgregarMedico);
-			//	statement.setInt(1, retornarID() ); Resultado de la funcion "retornarID", la cual devuelve el ID mas alto (es decir, el mas reciente)
+			    statement.setInt(1, RetornarUltimoID() ); //Resultado de la funcion "retornarID", la cual devuelve el ID mas alto (es decir, el mas reciente)
 				statement.setString(2, Med.getDni_m());
 				statement.setString(3, Med.getNombre_m());
 				statement.setString(4, Med.getApellido_m());
@@ -325,7 +350,8 @@ public class DaoMedicoImpl implements DaoMedico{
 				statement.setString(11, Med.getCorreoElectronico_m());
 				statement.setString(12, Med.getTelefono_m());
 				statement.setString(13, Med.getEspecialidad());
-				statement.setInt(14, Med.getEstado());
+				statement.setInt(14, Med.getCodHorarioMedico());
+				statement.setInt(15, Med.getEstado());
 
 				if(statement.executeUpdate() > 0)
 				{
