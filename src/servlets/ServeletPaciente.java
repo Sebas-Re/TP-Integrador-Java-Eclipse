@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -140,6 +141,7 @@ public class ServeletPaciente extends HttpServlet {
 			
 		}
 		
+		
 		if(request.getParameter("BtnModificar")!=null)
 		{
 			Pacientes p = new Pacientes();
@@ -168,6 +170,23 @@ public class ServeletPaciente extends HttpServlet {
 			request.setAttribute("ModificacionEs", filas);
 			RequestDispatcher rd = request.getRequestDispatcher("Pacientes.jsp");
 			rd.forward(request, response);
+		}
+		
+		if(request.getParameter("btnIniciarTurno")!=null)
+		{
+			PacienteNegocioImpl neg = new PacienteNegocioImpl();
+			Pacientes p = new Pacientes();
+			p.setDNI(request.getParameter("Dni"));
+			ArrayList<Pacientes> lista = neg.listarPacientexDNI(p);
+			
+
+			HttpSession session = request.getSession();	
+			session.setAttribute("SessionDNIP", p.getDNI());
+			
+			request.setAttribute("ListaPT", lista);
+			response.sendRedirect(request.getContextPath() + "/ServletTurnos?" + "AgregarInfo=1");
+			
+			
 		}
 		
 	}

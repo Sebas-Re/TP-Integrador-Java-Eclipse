@@ -14,6 +14,7 @@ public class DaoPacienteImpl implements DaoPaciente{
 	private static final String agregarPaciente = "INSERT INTO paciente(DNI_Paciente,Nombre_Paciente,Apellido_Paciente,Sexo_Paciente,Fecha_Nacimiento_Paciente,Nacionalidad_Paciente,Provincia_Paciente,Localidad_Paciente,Direccion_Paciente,Correo_Paciente, Telefono_Paciente, Estado_Paciente) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String modificarPaciente = "UPDATE paciente set Nombre_Paciente = ?, Apellido_Paciente = ?,Sexo_Paciente = ?,Fecha_Nacimiento_Paciente = ?,Nacionalidad_Paciente = ?,Provincia_Paciente = ?,Localidad_Paciente = ?,Direccion_Paciente = ?,Correo_Paciente = ?,Telefono_Paciente = ?,Estado_Paciente = ? WHERE DNI_Paciente = ?";
 	private static final String traerTodosPacientes = "SELECT * FROM paciente";
+	private static final String traerTodosPacientesxDNI = "SELECT * FROM paciente where DNI_Paciente=?";
 	private static final String FiltrarPacietesxNombre = "SELECT * FROM paciente where Nombre_Paciente like '%";
 	private static final String FiltrarPacietesxNombreEstado = "SELECT * FROM paciente where Estado_Paciente = ? and Nombre_Paciente like '%";
 	private static final String FiltrarPacietesxEstado = "SELECT * FROM paciente where Estado_Paciente=?";
@@ -105,6 +106,28 @@ public class DaoPacienteImpl implements DaoPaciente{
 		}
 		
 		return modificarExitoso;
+	}
+	
+	public ArrayList<Pacientes> listarPacientexDNI(Pacientes p) {
+		ArrayList<Pacientes> ls = new ArrayList<Pacientes>();
+		Connection conexion;
+		PreparedStatement st;
+		ResultSet rs;
+		try 
+		{
+			
+			conexion = Conexion.getSQLConexion();
+			st = conexion.prepareStatement(traerTodosPacientesxDNI);
+			st.setString(1, p.getDNI());
+			rs = st.executeQuery();
+			
+			ls= DevolverResultSet(rs, ls);
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return ls;
 	}
 	
 	@Override

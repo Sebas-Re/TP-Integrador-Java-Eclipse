@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import daolmpl.DaoPacienteImpl;
 import daolmpl.DaoTurnosImpl;
+import entidad.Medicos;
 import entidad.Pacientes;
 import entidad.Turnos;
 import entidad.Usuario;
@@ -43,10 +45,20 @@ public class ServletTurnos extends HttpServlet {
 		
 		if(request.getParameter("AgregarInfo")!=null) {
 			try{
-			DaoTurnosImpl dao = new DaoTurnosImpl();
-			ArrayList<String> listaEspecialidad = dao.listarEspecialidad();
-		
-			request.setAttribute("ListaE", listaEspecialidad);
+			NegocioTurnosImpl neg = new NegocioTurnosImpl();
+			PacienteNegocioImpl negP = new PacienteNegocioImpl();
+			
+			ArrayList<Medicos> lista = neg.ListarMedicos();
+			request.setAttribute("ListaM", lista);
+			
+			Pacientes  p = new Pacientes();
+			
+			HttpSession session = request.getSession();
+			p.setDNI(session.getAttribute("SessionDNIP").toString());
+			
+			
+			ArrayList<Pacientes>  ListaPaciente= negP.listarPacientexDNI(p);
+			request.setAttribute("DNIP", ListaPaciente);
 			
 			RequestDispatcher rd = request.getRequestDispatcher("Turnos.jsp");
 			rd.forward(request, response);
@@ -57,6 +69,24 @@ public class ServletTurnos extends HttpServlet {
 			}
 			
 		}
+		
+		if(request.getParameter("ListaTurnos")!=null) {
+    		try {
+    			
+    			
+    			NegocioTurnosImpl neg = new NegocioTurnosImpl();
+    			ArrayList<Turnos> lista = neg.ListarTurnos();
+    			
+    			request.setAttribute("ListaT", lista);
+    			
+    			RequestDispatcher rd = request.getRequestDispatcher("TurnosAdmin.jsp");
+    			rd.forward(request, response);
+    			
+    		}
+    		catch (Exception e) {
+				// TODO: handle exception
+			}
+    	}
 		
 		if(request.getParameter("TurnosxMedico")!=null) {
     		try {
@@ -78,26 +108,6 @@ public class ServletTurnos extends HttpServlet {
 			}
     	}
 		
-		if(request.getParameter("AgregarMedicos")!=null) {
-			//String Especialidad = request.getParameter("SelectEspecialidad").toString();
-			System.out.println(request.getParameter("SelectEspecialidad").toString());
-			try{
-				DaoTurnosImpl dao = new DaoTurnosImpl();
-				
-				
-			//ArrayList<String> listaMedicos = dao.ListarMedicos(request.getParameter("SelectEspecialidad"));
-			
-			//request.setAttribute("ListaM", listaMedicos);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("Turnos.jsp");
-			rd.forward(request, response);
-			}
-			catch (Exception e) {
-				
-			}
-			
-		}
-		
 			
 		
 	}
@@ -108,6 +118,44 @@ public class ServletTurnos extends HttpServlet {
 	protected void doPost(javax.servlet.http.HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		boolean filas= false;
+		
+
+		if(request.getParameter("btnAgregarTurno")!=null) {
+    		
+    		try {
+    			Turnos t = new Turnos();
+    			NegocioTurnosImpl neg = new NegocioTurnosImpl();
+    			
+    			String data = request.getParameter("Medico").toString();
+    			String[] split = data.split("-");
+    			
+    			HttpSession session = request.getSession();
+    			
+    			t.setDNI_Paciente_Turno(session.getAttribute("SessionDNIP").toString());
+    			t.setDNI_Medico_Turno(split[0]);
+    			
+    			t.setCod_Horario_Turno(Integer.valueOf(neg.CodigoHorario(t.getDNI_Medico_Turno())));
+    			t.setDia_Turno(split[3]);
+    			t.setFecha_Turno(request.getParameter("FechaTur").toString());
+    			t.setInicio_Turno(request.getParameter("Hora_Inicio").toString());
+    			t.setFin_Turno(request.getParameter("Hora_Fin").toString());
+    			t.setEstado_Turno("OCUPADO");
+    			
+    			filas = neg.AgregarTurno(t);
+    			
+    			ArrayList<Turnos> lista = neg.ListarTurnos();
+    			
+    			request.setAttribute("ListaT", lista);
+    			request.setAttribute("AgregadoEs", filas);
+    			RequestDispatcher rd = request.getRequestDispatcher("TurnosAdmin.jsp");
+    			rd.forward(request, response);
+    		}
+    		catch (Exception e) {
+				// TODO: handle exception
+    			e.printStackTrace();
+			}
+    	}
+		
 		if(request.getParameter("btnModificar")!=null) {
 			try {
 			NegocioTurnosImpl neg = new NegocioTurnosImpl();
@@ -129,6 +177,32 @@ public class ServletTurnos extends HttpServlet {
 			request.setAttribute("ListaTM", lista);
 			request.setAttribute("ModificacionEs", filas);
 			RequestDispatcher rd = request.getRequestDispatcher("TurnosMedico.jsp");
+			rd.forward(request, response);
+				
+			}
+			catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		
+		if(request.getParameter("btnModificarAdmin")!=null) {
+			try {
+			NegocioTurnosImpl neg = new NegocioTurnosImpl();
+			Turnos t = new Turnos();
+			
+			t.setObservacines(request.getParameter("Observaciones"));
+			t.setEstado_Turno(request.getParameter("Estado"));
+			t.setCod_Turno(Integer.valueOf(request.getParameter("Cod_Turno")));
+			
+			
+			filas = neg.modificarTurno(t);
+			
+			
+			ArrayList<Turnos> lista = neg.ListarTurnos();
+			
+			request.setAttribute("ListaT", lista);
+			request.setAttribute("ModificacionEs", filas);
+			RequestDispatcher rd = request.getRequestDispatcher("TurnosAdmin.jsp");
 			rd.forward(request, response);
 				
 			}

@@ -45,8 +45,7 @@ String MensajeBienvenida = "Bienvenido "+UsuarioLogeado.getNombreUsuario();
 	  <li class="nav__li"><%if(UsuarioLogeado.getTipoUsuario() == 1){ %><a class="nav__li-a" href="ServletReportes?MostrarReportes=1">Home</a><%} %></li>
 	  <li class="nav__li"><a class="nav__li-a" href="ServletMedicos?ListarMedicos=1">Medicos</a></li>
 	  <li class="nav__li"><a class="nav__li-a" href="ServeletPaciente?ListarPacientes=1">Pacientes</a></li>
-	  <li class="nav__li"><a class="nav__li-a" href="Turnos.jsp">Turnos</a></li>
-	  <li class="nav__li"><a class="nav__li-a" href="TurnosMedico.jsp">Turnos Medicos</a></li>
+	  <li class="nav__li"><a class="nav__li-a" href="ServletTurnos?ListaTurnos=1">Listar Turnos</a></li>
 	   <li class="nav__li"><%if(UsuarioLogeado.getTipoUsuario() == 1){ %><a class="nav__li-a" href="Reportes.jsp">Reportes</a><%} %></li>
 	 <li class="nav__Usuario"><%=MensajeBienvenida%></li>
 	 
@@ -592,6 +591,7 @@ response.sendRedirect(request.getContextPath() + "/ServletLogIn?" + "SessionVenc
    					}
    				%>
    				<td><input type="submit" name="BtnModificar" value="Modificar" /></td>
+   				<td><input type="submit" name="btnIniciarTurno" value="agregar turno" /></td>
    		  	</form>
    		</tr>
    	<% } 
